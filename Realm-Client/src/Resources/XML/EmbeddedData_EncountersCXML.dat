@@ -1,0 +1,13 @@
+<Objects>
+	<Object type="0x0e56" id="Masked Party God">
+		<Enemy/>
+		<Class>Character</Class>
+        <Texture><File>lofiObjBig</File><Index>0x40</Index></Texture>
+		<HitSound>monster/default_hit</HitSound>
+		<DeathSound>monster/dark_elves_death</DeathSound>
+		<Size>140</Size>
+		<ShadowSize>70</ShadowSize>
+		<MaxHitPoints>30000</MaxHitPoints>
+		<Defense>10</Defense>
+	</Object>
+</Objects>

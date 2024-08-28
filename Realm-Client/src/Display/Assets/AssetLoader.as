@@ -19,6 +19,7 @@ public class AssetLoader
     private function addImages() : void
     {
         AssetLibrary.addImageSet("lofiObj5",new EmbeddedAssets.lofiObj5Embed_().bitmapData,8,8);
+        AssetLibrary.addImageSet("lofiObjBig",new EmbeddedAssets.lofiObjBigEmbed_().bitmapData,16,16);
     }
 
     private function parseObjectFiles() : void

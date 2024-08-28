@@ -28,8 +28,8 @@ public class WebClient extends Sprite {
             addEventListener(Event.ADDED_TO_STAGE,this.onAddedToStage);
         }
         var obj:Bitmap;
-        var item:BitmapData = ObjectLibrary.getRedrawnTextureFromType(0x9c8);
-        item = TextureRedrawer.redraw(item, 100, true, 0);
+        var item:BitmapData = ObjectLibrary.getRedrawnTextureFromType(0xb0b);
+        item = TextureRedrawer.redraw(item, 160, true, 0);
         obj = new Bitmap(item);
         this.addChild(obj);
     }
