@@ -21,8 +21,6 @@ public class BasicObject extends Sprite {
         this.map = map;
         this.objectType = objectType;
         this.size = 100;
-        this.x = 400;
-        this.y = 300;
         this.RedrawBitmap();
         this.texture.x = this.texture.x - (this.texture.width / 2);
         this.texture.y = this.texture.y - (this.texture.height / 2);

@@ -2,12 +2,17 @@
 {
 	[state="First"]
 	{
-		[shoot, angle="0", coolDown="1000"],
-		[shoot, angle="45", coolDown="1000"]
+		[action="shoot", angle="0", coolDown="7000", coolDownOffset="0"],
+		[action="shoot", angle="15", coolDown="7000", coolDownOffset="1000"],
+		[action="shoot", angle="30", coolDown="7000", coolDownOffset="2000"],
+		[action="shoot", angle="45", coolDown="7000", coolDownOffset="3000"],
+		[action="shoot", angle="60", coolDown="7000", coolDownOffset="4000"],
+		[action="shoot", angle="75", coolDown="7000", coolDownOffset="5000"],
+		[action="shoot", angle="90", coolDown="7000", coolDownOffset="6000"],
 	},
 	[state="Second"]
 	{
-		[shoot, angle="90", coolDown="500"],
-		[shoot, angle="270", coolDown="500"]
+		[action="shoot", angle="90", coolDown="500"],
+		[action="shoot", angle="270", coolDown="500"]
 	}
 }

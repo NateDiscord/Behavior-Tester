@@ -1,5 +1,6 @@
 package Engine {
 import Display.Assets.Objects.BasicObject;
+import Display.Assets.Objects.Entity;
 import Display.Control.ObjectLibrary;
 
 import Engine.Behaviors.CycleLogic;
@@ -33,8 +34,10 @@ public class GameManager extends Sprite {
         this.camera = new Camera(this.map, 800, 600);
         addChild(this.camera);
 
-        var obj:BasicObject = new BasicObject(this.map, ObjectLibrary.idToType_[this.behavior.name_]);
-        this.map.AddObj(obj);
+        var obj:Entity = new Entity(this.map, ObjectLibrary.idToType_[this.behavior.name_]);
+        obj.x = 400;
+        obj.y = 300;
+        this.map.addChild(obj);
 
         // Initialize the CycleLogic instance
         this.cycleLogic = new CycleLogic(this.map, this.behavior, 0);
