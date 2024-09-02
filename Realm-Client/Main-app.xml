@@ -1,0 +1,13 @@
+<application xmlns="http://ns.adobe.com/air/application/32.0">
+  <id>Main</id>
+  <filename>Behavior Tester</filename>
+  <name>Behavior Tester</name>
+  <versionNumber>1.0.0</versionNumber>
+  <initialWindow>
+    <content>Main.swf</content>
+    <title>Behavior Tester</title>
+    <visible>true</visible>
+    <renderMode>direct</renderMode>
+    <depthAndStencil>true</depthAndStencil>
+  </initialWindow>
+</application>

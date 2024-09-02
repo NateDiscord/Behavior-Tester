@@ -20,35 +20,36 @@ import flash.events.TimerEvent;
 import flash.utils.Timer;
 import flash.utils.getTimer;
 
-public class GameManager extends Sprite {
+public class Manager extends Sprite {
+
+    private var camera:Camera;
     private var map:Map;
     private var behavior:BehaviorDb;
     private var cycleLogic:CycleLogic;
     private var lastUpdateTime:int;
 
-    public function GameManager(behaviorData:BehaviorDb) {
+    public function Manager(behaviorData:BehaviorDb) {
         this.behavior = behaviorData;
         this.map = new Map();
-        this.addChild(this.map);
+        this.camera = new Camera(this.map, 800, 600);
+        addChild(this.camera);
 
         var obj:BasicObject = new BasicObject(this.map, ObjectLibrary.idToType_[this.behavior.name_]);
-        this.map.AddObj(obj);
+        this.map.addObj(obj);
 
-        // Initialize the CycleLogic instance
+        /* initialize CycleLogic. */
         this.cycleLogic = new CycleLogic(this.map, this.behavior, 0);
-
-        this.addEventListener(Event.ENTER_FRAME, onEnterFrame);
+        addEventListener("enterFrame", onEnterFrame);
     }
 
     private function onEnterFrame(event:Event):void {
         var currentTime:int = getTimer();
         for (var i:int = this.map.numChildren - 1; i >= 0; i--) {
             var child:BasicObject = this.map.getChildAt(i) as BasicObject;
-            if (child) {
+            if (child)
                 child.update(currentTime);
-            }
         }
-        // Update the last update time in CycleLogic
+        /* update the CycleLogic's lastUpdateTime. */
         this.cycleLogic.setLastUpdateTime(currentTime);
         this.cycleLogic.updateCooldownsAndShoot();
         this.lastUpdateTime = currentTime;

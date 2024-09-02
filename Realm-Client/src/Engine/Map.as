@@ -3,15 +3,16 @@ import Display.Assets.Objects.BasicObject;
 import flash.display.Sprite;
 
 public class Map extends Sprite {
+
     public function Map() {
     }
 
-    public function AddObj(obj:BasicObject) : void {
-        this.addChild(obj);
+    public function addObj(obj:BasicObject) : void {
+        addChild(obj);
     }
 
-    public  function RemoveObj(obj:BasicObject) : void {
-        this.removeChild(obj);
+    public  function removeObj(obj:BasicObject) : void {
+        removeChild(obj);
     }
 }
 }

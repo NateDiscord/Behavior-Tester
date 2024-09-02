@@ -32,7 +32,7 @@ public class CycleLogic {
             var elapsedTime:int = getTimer() - projectile.coolDownOffset;
             if (elapsedTime >= projectile.coolDown) {
                 var proj:Projectile = new Projectile(this.map, projProps, projectile.angle * (Math.PI / 180), this.lastUpdateTime);
-                this.map.AddObj(proj);
+                this.map.addObj(proj);
                 // Update the last time this action was performed
                 projectile.coolDownOffset = getTimer();
             }
