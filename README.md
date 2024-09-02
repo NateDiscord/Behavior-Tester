@@ -26,3 +26,4 @@ Behavior-Tester is a development tool designed to facilitate the real-time testi
 - [ ] Establish Network Branch
 - [ ] Establish Player Branch
 - [x] Establish Behavior Cycle Logic
+- [x] Add Camera System (ty runes <3)

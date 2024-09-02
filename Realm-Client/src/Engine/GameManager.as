@@ -22,6 +22,7 @@ import flash.utils.getTimer;
 
 public class GameManager extends Sprite {
     private var map:Map;
+    private var camera:Camera;
     private var behavior:BehaviorDb;
     private var cycleLogic:CycleLogic;
     private var lastUpdateTime:int;
@@ -29,7 +30,8 @@ public class GameManager extends Sprite {
     public function GameManager(behaviorData:BehaviorDb) {
         this.behavior = behaviorData;
         this.map = new Map();
-        this.addChild(this.map);
+        this.camera = new Camera(this.map, 800, 600);
+        addChild(this.camera);
 
         var obj:BasicObject = new BasicObject(this.map, ObjectLibrary.idToType_[this.behavior.name_]);
         this.map.AddObj(obj);
