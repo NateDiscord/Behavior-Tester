@@ -25,4 +25,4 @@ Behavior-Tester is a development tool designed to facilitate the real-time testi
 - [x] Add Projectile Motion
 - [ ] Establish Network Branch
 - [ ] Establish Player Branch
-- [ ] Establish Behavior Cycle Logic
+- [x] Establish Behavior Cycle Logic

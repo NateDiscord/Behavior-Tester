@@ -1,0 +1,13 @@
+[entity="Abyss Idol"]
+{
+	[state="First"]
+	{
+		[shoot, angle="0", coolDown="1000"],
+		[shoot, angle="45", coolDown="1000"]
+	},
+	[state="Second"]
+	{
+		[shoot, angle="90", coolDown="500"],
+		[shoot, angle="270", coolDown="500"]
+	}
+}
