@@ -22,6 +22,7 @@ Behavior-Tester is a development tool designed to facilitate the real-time testi
 - [x] Add Asset Drawing: Texture & Glow Redrawer
 - [X] Add Embedded Data
 - [x] Add XML Parsing for Objects
+- [x] Add Projectile Motion
 - [ ] Establish Network Branch
 - [ ] Establish Player Branch
 - [ ] Establish Behavior Cycle Logic
