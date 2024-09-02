@@ -1,4 +1,6 @@
 package Display.Control {
+import Display.Control.Redrawers.TextureData;
+
 import flash.display.BitmapData;
 import flash.utils.Dictionary;
 

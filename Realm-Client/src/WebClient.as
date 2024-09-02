@@ -1,11 +1,7 @@
 package {
 import Display.Assets.AssetLoader;
-import Display.Control.ObjectLibrary;
-import Display.Control.TextureRedrawer;
 
-import flash.display.Bitmap;
-
-import flash.display.BitmapData;
+import Engine.Map;
 
 import flash.display.Sprite;
 import flash.display.Stage;
@@ -27,11 +23,7 @@ public class WebClient extends Sprite {
         {
             addEventListener(Event.ADDED_TO_STAGE,this.onAddedToStage);
         }
-        var obj:Bitmap;
-        var item:BitmapData = ObjectLibrary.getRedrawnTextureFromType(0xb0b);
-        item = TextureRedrawer.redraw(item, 160, true, 0);
-        obj = new Bitmap(item);
-        this.addChild(obj);
+        this.addChild(new Map());
     }
 
     private function onAddedToStage(event:Event) : void

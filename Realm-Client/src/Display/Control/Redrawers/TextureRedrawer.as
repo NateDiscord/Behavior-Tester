@@ -1,9 +1,10 @@
-package Display.Control {
+package Display.Control.Redrawers {
+import Display.Control.*;
 import Display.Assets.*;
 
 import Display.Util.BitmapDataSpy;
 import Display.Util.PointUtil;
-import Display.Control.TextureRedrawer_textureShaderEmbed_;
+import Display.Control.Redrawers.TextureRedrawer_textureShaderEmbed_;
 
 import flash.display.BitmapData;
 import flash.display.Shader;
@@ -39,7 +40,7 @@ public class TextureRedrawer {
             return redrawCaches[tex][hash];
         }
         var modTex:BitmapData = resize(tex, null, size, padBottom, 0, 0, sMult);
-        modTex = GlowRedrawer.outlineGlow(modTex, glowColor, glowMult, useCache);
+        //modTex = GlowRedrawer.outlineGlow(modTex, glowColor, glowMult, useCache);
         if (useCache) {
             cache(tex, hash, modTex);
         }

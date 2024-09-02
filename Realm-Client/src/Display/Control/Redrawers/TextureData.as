@@ -1,4 +1,5 @@
-package Display.Control {
+package Display.Control.Redrawers {
+import Display.Control.*;
 
 import flash.display.BitmapData;
 
