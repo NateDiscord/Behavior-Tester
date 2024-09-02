@@ -23,7 +23,6 @@ import flash.utils.getTimer;
 public class GameManager extends Sprite {
     private var map:Map;
     private var behavior:BehaviorDb;
-    private var currentState:int;
     private var cycleLogic:CycleLogic;
     private var lastUpdateTime:int;
 
@@ -34,20 +33,11 @@ public class GameManager extends Sprite {
 
         var obj:BasicObject = new BasicObject(this.map, ObjectLibrary.idToType_[this.behavior.name_]);
         this.map.AddObj(obj);
-        this.currentState = 0;
 
         // Initialize the CycleLogic instance
-        this.cycleLogic = new CycleLogic(this.map, this.behavior, this.currentState);
+        this.cycleLogic = new CycleLogic(this.map, this.behavior, 0);
 
         this.addEventListener(Event.ENTER_FRAME, onEnterFrame);
-        var timer:Timer = new Timer(10);
-        timer.addEventListener(TimerEvent.TIMER, onTimerEvent);
-        timer.start();
-    }
-
-    private function onTimerEvent(event:TimerEvent):void {
-        // Delegate the cooldown and shooting logic to CycleLogic
-        this.cycleLogic.updateCooldownsAndShoot();
     }
 
     private function onEnterFrame(event:Event):void {
@@ -60,6 +50,7 @@ public class GameManager extends Sprite {
         }
         // Update the last update time in CycleLogic
         this.cycleLogic.setLastUpdateTime(currentTime);
+        this.cycleLogic.updateCooldownsAndShoot();
         this.lastUpdateTime = currentTime;
     }
 }
