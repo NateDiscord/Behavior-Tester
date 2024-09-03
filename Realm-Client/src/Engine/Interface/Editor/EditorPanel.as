@@ -53,10 +53,10 @@ public class EditorPanel extends Sprite {
         this.container = new Sprite();
         this.inset = new Sprite();
 
-        this.container = GraphicsUtil.drawBackground(200, 550, 12);
+        this.container = GraphicsUtil.drawBackground(250, 700, 12);
         addChild(this.container);
 
-        this.inset = GraphicsUtil.drawInset(190, 510, 10);
+        this.inset = GraphicsUtil.drawInset(240, 660, 10);
         this.inset.x = 5;
         this.inset.y = 35;
         this.container.addChild(this.inset);
@@ -92,7 +92,7 @@ public class EditorPanel extends Sprite {
         g.clear();
         g.lineStyle(2, 0x505050);
         g.beginFill(0, 0);
-        g.drawRoundRect(0, 0, 180, 1, 5, 5);
+        g.drawRoundRect(0, 0, 230, 1, 5, 5);
         return s;
     }
 
@@ -102,17 +102,15 @@ public class EditorPanel extends Sprite {
         var len:int = Main.CURRENT_BEHAVIOR.statesList_.length;
         for (var i:int = 0; i < len; i++)
         {
-            this.stateCells[i] = new StateCell(i);
+            this.stateCells[i] = new StateCell(i, this);
             this.inset.addChild(this.stateCells[i]);
             this.stateCells.push(this.stateCells[i]);
-            this.stateCells[i].x = 5;
-            this.stateCells[i].y = (this.lineBreak.y + 10) + (this.stateCells[i].height * i) + (5 * i);
         }
     }
 
-    private function rePosition():void
+    public function rePosition():void
     {
-        this.headerText.x = 100 - this.headerText.width / 2;
+        this.headerText.x = 125 - this.headerText.width / 2;
         this.headerText.y = 5;
 
         this.enemyName.x = this.enemyBitmap.width;
@@ -120,6 +118,15 @@ public class EditorPanel extends Sprite {
 
         this.enemyHealth.x = this.enemyName.x;
         this.enemyHealth.y = this.enemyName.y + this.enemyName.height - 3;
+
+        for (var i:int = 0; i < this.stateCells.length - 1; i++)
+        {
+            this.stateCells[i].x = 5;
+            if (i == 0)
+                this.stateCells[i].y = (this.lineBreak.y + 10);
+            else
+                this.stateCells[i].y = (this.lineBreak.y + 10) + (this.stateCells[i - 1].height * i) + (5 * i);
+        }
     }
 
     private function enableDragging():void {

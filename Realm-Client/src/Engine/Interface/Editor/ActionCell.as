@@ -1,55 +1,39 @@
 package Engine.Interface.Editor {
 import Display.Text.SimpleText;
+import Display.Util.TextUtil;
+
+import Engine.Behaviors.Modals.Shoot;
+
 import flash.display.Sprite;
 
 public class ActionCell extends Sprite {
-    private var actionTexts:Vector.<SimpleText>;
+    private var action:Object;
 
-    public function ActionCell(stateIndex:int) {
-        // Initialize the background of the cell
-        this.graphics.beginFill(0x202020, 0.5);
-        this.graphics.drawRoundRect(0, 0, 200, 200, 8, 8);
-        this.graphics.endFill();
+    private var actionText:SimpleText;
+    private var subText:SimpleText;
 
-        // Retrieve the actions from the state
-        var state:Object = Main.CURRENT_BEHAVIOR.statesList_[stateIndex];
-        var actions:Array = state.actions_; // Assuming actions_ is an array of action objects
+    public function ActionCell(action:Object, index:int) {
+        this.action = action;
+        graphics.beginFill(0x303030, 0.7);
+        graphics.drawRoundRect(0, 0, 230, 30, 10, 10);
+        graphics.endFill();
 
-        this.actionTexts = new Vector.<SimpleText>();
+        if (!this.action is Shoot)
+            return;
+        this.actionText = new SimpleText(14, 0xffffff, false);
+        this.actionText.x = this.actionText.y = 6;
+        TextUtil.handleText(this.actionText, "Shoot:", this);
 
-        // Display each action as SimpleText
-        var yPos:int = 10;
-        for each (var action:Object in actions) {
-            var actionText:SimpleText = new SimpleText(12, 0xffffff, false);
-            var actionDetails:String = formatActionDetails(action);
-            actionText.text = actionDetails;
-            actionText.x = 10;
-            actionText.y = yPos;
-
-            this.addChild(actionText);
-            this.actionTexts.push(actionText);
-
-            yPos += actionText.height + 5; // Move position down for the next action
-        }
-    }
-
-    private function formatActionDetails(action:Object):String {
-        // Format the action details as a string
-        // Example format: "ActionType: <type>, ProjectileIndex: <index>, Angle: <angle>"
-        var details:String = "ActionType: " + action.type;
-        if (action.projectileIndex !== undefined) {
-            details += ", ProjectileIndex: " + action.projectileIndex;
-        }
-        if (action.angle !== undefined) {
-            details += ", Angle: " + action.angle;
-        }
-        if (action.coolDown !== undefined) {
-            details += ", CoolDown: " + action.coolDown;
-        }
-        if (action.coolDownOffset !== undefined) {
-            details += ", CoolDownOffset: " + action.coolDownOffset;
-        }
-        return details;
+        var shoot:Shoot = this.action as Shoot;
+        var text:String = "<font color=\"#ffffff\">angle:</font> "
+                + shoot.angle + ", <font color=\"#ffffff\">index:</font> "
+                + shoot.projectileIndex + ", <font color=\"#ffffff\">cd:</font> "
+                + shoot.coolDown + " ms, \n<font color=\"#ffffff\">offset:</font> "
+                + shoot.coolDownOffset + " ms.";
+        this.subText = new SimpleText(11, 0xaaaaaa, false);
+        this.subText.x = this.actionText.x + this.actionText.width + 3;
+        this.subText.y = 2;
+        TextUtil.handleText(this.subText, text, this);
     }
 }
 }

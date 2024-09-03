@@ -58,8 +58,8 @@ public class Camera extends Sprite {
 
     public function adjustPosition():void
     {
-        position.x = -((Main.windowWidth / 2) - (800 / 2));
-        position.y = -((Main.windowHeight / 2) - (600 / 2));
+        position.x = -((Main.windowWidth / 2) - (1280 / 2));
+        position.y = -((Main.windowHeight / 2) - (720 / 2));
 
         map.x = -position.x;
         map.y = -position.y;
