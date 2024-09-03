@@ -2,6 +2,8 @@ package Engine.Interface {
 import Display.Text.SimpleText;
 import Display.Util.FilterUtil;
 
+import Engine.Interface.Editor.EditorPanel;
+
 import Engine.Manager;
 
 import flash.display.SimpleButton;
@@ -29,8 +31,12 @@ public class Interface extends Sprite {
     }
 
     public function onResize():void {
-        if (this.editorPanel.hasBeenMoved)
+        if (!this.editorPanel.hasBeenMoved)
             this.editorPanel.y = Main.windowHeight / 2 - this.editorPanel.height / 2;
+        if (this.editorPanel.x > Main.windowWidth)
+            this.editorPanel.x = Main.windowWidth - this.editorPanel.width - 5;
+        if (this.editorPanel.y > Main.windowHeight)
+            this.editorPanel.y = Main.windowHeight - this.editorPanel.height - 5;
         this.credits.x = Main.windowWidth - this.credits.width - 2;
         this.credits.y = Main.windowHeight - this.credits.height - 2;
     }

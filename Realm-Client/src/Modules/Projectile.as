@@ -25,7 +25,7 @@ public class Projectile extends BasicObject
         this.rotation = angle * (180 / Math.PI);
         if (objectXML.hasOwnProperty("AngleCorrection")) {
             var angleCorrection:Number = Number(objectXML.AngleCorrection);
-            angleCorrection = angleCorrection * 0.8* (180 / Math.PI);
+            angleCorrection = angleCorrection * 0.8 * (180 / Math.PI);
             this.rotation += angleCorrection;
         }
         super(map, objectType, this.projProps.size_, true);

@@ -1,13 +1,17 @@
-package Engine.Interface {
+package Engine.Interface.Editor {
 import Display.Control.ObjectLibrary;
 import Display.Control.Redrawers.TextureRedrawer;
 import Display.Text.SimpleText;
 import Display.Util.FilterUtil;
 import Display.Util.GraphicsUtil;
+import Display.Util.TextUtil;
+
+import Engine.Interface.Interface;
 
 import flash.display.Bitmap;
 import flash.display.BitmapData;
 import flash.display.DisplayObject;
+import flash.display.Graphics;
 
 import flash.display.Sprite;
 import flash.events.MouseEvent;
@@ -25,8 +29,11 @@ public class EditorPanel extends Sprite {
     private var enemyBitmap:Bitmap;
     private var enemyName:SimpleText;
     private var enemyHealth:SimpleText;
+    private var lineBreak:Sprite;
 
     public var hasBeenMoved:Boolean = false;
+
+    public var stateCells:Vector.<StateCell>;
 
     public function EditorPanel(host:Interface) {
         this.host = host;
@@ -37,6 +44,7 @@ public class EditorPanel extends Sprite {
 
         this.addGraphics();
         this.addHeader();
+        this.addContent();
         this.enableDragging();
         this.rePosition();
     }
@@ -56,7 +64,7 @@ public class EditorPanel extends Sprite {
 
     private function addHeader():void {
         this.headerText = new SimpleText(20, 0xFFFFFF);
-        this.handleText(this.headerText, "Behavior Editor", this);
+        TextUtil.handleText(this.headerText, "Behavior Editor", this);
 
         var bd:BitmapData = ObjectLibrary.getRedrawnTextureFromType(Main.CURRENT_ENTITY.objectType);
         var check:Boolean = bd.width > 8;
@@ -66,11 +74,40 @@ public class EditorPanel extends Sprite {
         this.enemyBitmap.y = 5;
         this.inset.addChild(this.enemyBitmap);
 
-        this.enemyName = new SimpleText(14, 0xffffff, false);
-        this.handleText(this.enemyName, ObjectLibrary.getIdFromType(Main.CURRENT_ENTITY.objectType), this.inset);
+        this.enemyName = new SimpleText(16, 0xffffff, false);
+        TextUtil.handleText(this.enemyName, ObjectLibrary.getIdFromType(Main.CURRENT_ENTITY.objectType), this.inset);
 
-        this.enemyHealth = new SimpleText(11, 0xaaaaaa, false);
-        this.handleText(this.enemyHealth, Main.CURRENT_ENTITY.xml_.MaxHitPoints + " HP", this.inset);
+        this.enemyHealth = new SimpleText(12, 0xaaaaaa, false);
+        TextUtil.handleText(this.enemyHealth, Main.CURRENT_ENTITY.xml_.MaxHitPoints + " HP", this.inset);
+
+        this.lineBreak = addLineBreak();
+        this.lineBreak.x = 5;
+        this.lineBreak.y = this.enemyBitmap.y + this.enemyBitmap.height + 10;
+        this.inset.addChild(this.lineBreak);
+    }
+
+    private function addLineBreak():Sprite {
+        var s:Sprite = new Sprite();
+        var g:Graphics = s.graphics;
+        g.clear();
+        g.lineStyle(2, 0x505050);
+        g.beginFill(0, 0);
+        g.drawRoundRect(0, 0, 180, 1, 5, 5);
+        return s;
+    }
+
+    private function addContent():void
+    {
+        this.stateCells = new Vector.<StateCell>();
+        var len:int = Main.CURRENT_BEHAVIOR.statesList_.length;
+        for (var i:int = 0; i < len; i++)
+        {
+            this.stateCells[i] = new StateCell(i);
+            this.inset.addChild(this.stateCells[i]);
+            this.stateCells.push(this.stateCells[i]);
+            this.stateCells[i].x = 5;
+            this.stateCells[i].y = (this.lineBreak.y + 10) + (this.stateCells[i].height * i) + (5 * i);
+        }
     }
 
     private function rePosition():void
@@ -112,14 +149,6 @@ public class EditorPanel extends Sprite {
     private function stopDragPanel(event:MouseEvent):void {
         stage.removeEventListener("mouseMove", dragPanel);
         stage.removeEventListener("mouseUp", stopDragPanel);
-    }
-
-    private function handleText(text:SimpleText, content:String, target:Sprite):void {
-        text.setBold(true);
-        text.filters = FilterUtil.getTextOutlineFilter();
-        text.autoSize = "left";
-        text.htmlText = content;
-        target.addChild(text);
     }
 
 }

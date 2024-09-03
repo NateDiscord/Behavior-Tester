@@ -26,6 +26,7 @@ public class Main extends Sprite {
     public var manager:Manager;
 
     public static var CURRENT_ENTITY:Entity;
+    public static var CURRENT_BEHAVIOR:BehaviorDb;
 
     public function Main()
     {
@@ -44,6 +45,7 @@ public class Main extends Sprite {
 
     private function loadGame(behavior:BehaviorDb) : void
     {
+        CURRENT_BEHAVIOR = behavior;
         if (!this.manager)
             this.manager = new Manager(behavior);
         addChild(this.manager);

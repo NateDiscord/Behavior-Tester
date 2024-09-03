@@ -17,7 +17,7 @@
           </map>
           <option name="additionalOptions" value="-default-size 800 600  -default-frame-rate 60  -default-background-color #000000  -swf-version 15  -dump-config config.xml  -optimize=true  -use-direct-blit=true  -keep-as3-metadata+=Inject  -keep-as3-metadata+=Embed  -keep-as3-metadata+=PostConstruct  -keep-as3-metadata+=ArrayElementType" />
         </compiler-options>
-        <packaging-air-desktop package-file-name="WebMain" />
+        <packaging-air-desktop use-generated-descriptor="false" custom-descriptor-path="$MODULE_DIR$/Main-app.xml" package-file-name="WebMain" />
         <packaging-android />
         <packaging-ios />
       </configuration>
