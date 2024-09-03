@@ -12,18 +12,21 @@ public class Camera extends Sprite {
     private var map:Map;
     private var tileMap:TileMap;
     private var position:Point;
+    private var lastWindowSize:Point;
 
     public function Camera(map:Map, tileMap:TileMap, startPos:Point = null) {
-        this.position = startPos;
+        this.position = startPos || new Point(0, 0);
+        this.lastWindowSize = new Point(Main.STAGE.stageWidth, Main.STAGE.stageHeight);
 
         this.tileMap = tileMap;
         addChild(this.tileMap);
         this.map = map;
         addChild(this.map);
 
-        addEventListener("enterFrame", onEnterFrame);
-        Main.STAGE.addEventListener("keyDown", onKeyDown);
-        Main.STAGE.addEventListener("keyUp", onKeyUp);
+        addEventListener(Event.ENTER_FRAME, onEnterFrame);
+        Main.STAGE.addEventListener(KeyboardEvent.KEY_DOWN, onKeyDown);
+        Main.STAGE.addEventListener(KeyboardEvent.KEY_UP, onKeyUp);
+        Main.STAGE.addEventListener(Event.RESIZE, onResize);
     }
 
     private var keys:Object = {};
@@ -49,27 +52,38 @@ public class Camera extends Sprite {
         if (keys[Keyboard.DOWN]) {
             position.y += MOVE_SPEED;
         }
+
+        updateCamera();
+    }
+
+    private function onResize(e:Event):void {
+        var newSize:Point = new Point(Main.STAGE.stageWidth, Main.STAGE.stageHeight);
+        var offsetX:Number = (newSize.x - lastWindowSize.x) / 2;
+        var offsetY:Number = (newSize.y - lastWindowSize.y) / 2;
+
+        position.x -= offsetX;
+        position.y -= offsetY;
+
+        lastWindowSize = newSize;
+
+        updateCamera();
+    }
+
+    private function updateCamera():void {
         map.x = -position.x;
         map.y = -position.y;
         tileMap.x = -position.x;
         tileMap.y = -position.y;
-
-        trace(position.x, position.y);
     }
 
-    public function adjustPosition():void
-    {
-        var lastPos:Point = position;
-        map.x = -position.x;
-        map.y = -position.y;
-        tileMap.x = -position.x;
-        tileMap.y = -position.y;
+    public function adjustPosition():void {
+        updateCamera();
     }
 
-    // Function to move the camera to a new position
     public function moveTo(newX:Number, newY:Number):void {
         this.position.x = newX;
         this.position.y = newY;
+        updateCamera();
     }
 }
 }
