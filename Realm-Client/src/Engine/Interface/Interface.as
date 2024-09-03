@@ -1,14 +1,8 @@
 package Engine.Interface {
-import Display.Text.SimpleText;
-import Display.Util.FilterUtil;
-
 import Engine.Interface.Editor.EditorPanel;
-
 import Engine.Manager;
 
-import flash.display.SimpleButton;
 import flash.display.Sprite;
-import flash.events.Event;
 
 public class Interface extends Sprite {
 

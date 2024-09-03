@@ -8,6 +8,7 @@ import Display.Util.TextUtil;
 
 import Engine.Interface.Interface;
 
+import flash.geom.Rectangle;
 import flash.display.Bitmap;
 import flash.display.BitmapData;
 import flash.display.DisplayObject;
@@ -19,21 +20,26 @@ import flash.geom.Point;
 
 public class EditorPanel extends Sprite {
 
-    private var host:Interface;
+    public static const PANEL_WIDTH:int = 400;
+    public static const INSET_WIDTH:int = 390;
+
+    public static const PANEL_HEIGHT:int = 700;
+    public static const INSET_HEIGHT:int = 660;
 
     private var headerText:SimpleText;
-    private var container:Sprite;
-    private var inset:Sprite;
-    private var offset:Point;
-
     private var enemyBitmap:Bitmap;
     private var enemyName:SimpleText;
     private var enemyHealth:SimpleText;
     private var lineBreak:Sprite;
-
-    public var hasBeenMoved:Boolean = false;
-
+    private var container:Sprite;
+    private var inset:Sprite;
+    private var editorBounds:Sprite;
+    private var editorMask:Sprite;
     public var stateCells:Vector.<StateCell>;
+
+    private var host:Interface;
+    private var offset:Point;
+    public var hasBeenMoved:Boolean = false;
 
     public function EditorPanel(host:Interface) {
         this.host = host;
@@ -53,10 +59,10 @@ public class EditorPanel extends Sprite {
         this.container = new Sprite();
         this.inset = new Sprite();
 
-        this.container = GraphicsUtil.drawBackground(250, 700, 12);
+        this.container = GraphicsUtil.drawBackground(PANEL_WIDTH, PANEL_HEIGHT, 12);
         addChild(this.container);
 
-        this.inset = GraphicsUtil.drawInset(240, 660, 10);
+        this.inset = GraphicsUtil.drawInset(INSET_WIDTH, INSET_HEIGHT, 10);
         this.inset.x = 5;
         this.inset.y = 35;
         this.container.addChild(this.inset);
@@ -84,6 +90,22 @@ public class EditorPanel extends Sprite {
         this.lineBreak.x = 5;
         this.lineBreak.y = this.enemyBitmap.y + this.enemyBitmap.height + 10;
         this.inset.addChild(this.lineBreak);
+
+        this.editorBounds = setBounds();
+        this.editorMask = setBounds();
+        this.editorBounds.y = this.editorMask.y = this.lineBreak.y + 3;
+        this.editorBounds.mask = this.editorMask;
+        this.inset.addChild(this.editorBounds);
+    }
+
+    private function setBounds():Sprite {
+        var s:Sprite = new Sprite();
+        var g:Graphics = s.graphics;
+        g.clear();
+        g.beginFill(0, 0);
+        g.drawRect(0, 0, INSET_WIDTH, INSET_HEIGHT - this.lineBreak.y + 3);
+        g.endFill();
+        return s;
     }
 
     private function addLineBreak():Sprite {
@@ -92,7 +114,7 @@ public class EditorPanel extends Sprite {
         g.clear();
         g.lineStyle(2, 0x505050);
         g.beginFill(0, 0);
-        g.drawRoundRect(0, 0, 230, 1, 5, 5);
+        g.drawRoundRect(0, 0, INSET_WIDTH - 10, 1, 5, 5);
         return s;
     }
 
@@ -103,14 +125,14 @@ public class EditorPanel extends Sprite {
         for (var i:int = 0; i < len; i++)
         {
             this.stateCells[i] = new StateCell(i, this);
-            this.inset.addChild(this.stateCells[i]);
+            this.editorBounds.addChild(this.stateCells[i]);
             this.stateCells.push(this.stateCells[i]);
         }
     }
 
     public function rePosition():void
     {
-        this.headerText.x = 125 - this.headerText.width / 2;
+        this.headerText.x = PANEL_WIDTH / 2 - this.headerText.width / 2;
         this.headerText.y = 5;
 
         this.enemyName.x = this.enemyBitmap.width;
@@ -123,9 +145,9 @@ public class EditorPanel extends Sprite {
         {
             this.stateCells[i].x = 5;
             if (i == 0)
-                this.stateCells[i].y = (this.lineBreak.y + 10);
+                this.stateCells[i].y = 5;
             else
-                this.stateCells[i].y = (this.lineBreak.y + 10) + (this.stateCells[i - 1].height * i) + (5 * i);
+                this.stateCells[i].y = 5 + (this.stateCells[i - 1].height * i) + (5 * i);
         }
     }
 

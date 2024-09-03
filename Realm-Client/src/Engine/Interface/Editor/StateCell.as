@@ -1,11 +1,15 @@
 package Engine.Interface.Editor {
 import Display.Text.SimpleText;
 import Display.Util.TextUtil;
+
+import Engine.Behaviors.Modals.Shoot;
+
 import flash.display.Sprite;
 import flash.events.MouseEvent;
-import flash.display.DisplayObjectContainer;
 
 public class StateCell extends Sprite {
+
+    private var indexText:SimpleText;
     private var nameText:SimpleText;
     private var background:Sprite;
 
@@ -20,20 +24,24 @@ public class StateCell extends Sprite {
         this.expanded = false;
 
         this.background = new Sprite();
+        this.background.addEventListener(MouseEvent.CLICK, onClick);
         addChild(this.background);
 
+        this.indexText = new SimpleText(12, 0xaaaaaa, false);
+        this.indexText.x = this.indexText.y = 4;
+        TextUtil.handleText(this.indexText, (index + 1) + ".", this);
+
         var name:String = Main.CURRENT_BEHAVIOR.statesList_[index].id_;
-        this.nameText = new SimpleText(14, 0xffffff, false);
-        this.nameText.x = 5;
-        this.nameText.y = 5;
+        this.nameText = new SimpleText(18, 0xffffff, false);
+        this.nameText.x = 20;
+        this.nameText.y = 9;
         TextUtil.handleText(this.nameText, name, this);
 
         this.background.graphics.clear();
-        this.background.graphics.beginFill(0x101010, 0.5);
-        this.background.graphics.drawRoundRect(0, 0, 230, 30, 10, 10);
+        this.background.graphics.lineStyle(2, 0x101010);
+        this.background.graphics.beginFill(0x151515, 1);
+        this.background.graphics.drawRoundRect(0, 0, EditorPanel.INSET_WIDTH - 20, 40, 15, 15);
         this.background.graphics.endFill();
-
-        addEventListener(MouseEvent.CLICK, onClick);
     }
 
     private function onClick(event:MouseEvent):void {
@@ -46,10 +54,9 @@ public class StateCell extends Sprite {
     }
 
     private function removeExistingActionCells():void {
-        // Remove all children that are of type ActionCell
         for (var i:int = numChildren - 1; i >= 0; i--) {
             var child:Object = getChildAt(i);
-            if (child is ActionCell) {
+            if (child is ActionCell || child is ShootCell) {
                 removeChildAt(i);
             }
         }
@@ -57,17 +64,20 @@ public class StateCell extends Sprite {
 
     private function createActionCells():void {
         var state:Object = Main.CURRENT_BEHAVIOR.statesList_[this.index];
-        var actions:Array = state.actions_; // Assuming actions_ is an array of action objects
+        var actions:Array = state.actions_;
 
-        var yPos:int = 40; // Starting Y position for action cells
+        var yPos:int = 45;
         for (var i:int = 0; i < actions.length; i++) {
             var action:Object = actions[i];
-            var actionCell:ActionCell = new ActionCell(action, i);
-            actionCell.y = yPos;
+            var cell:*;
+            if (action is Shoot)
+                cell = new ShootCell(action as Shoot);
+            else
+                cell = new ActionCell(action);
+            cell.y = yPos;
+            addChild(cell);
 
-            addChild(actionCell);
-
-            yPos += actionCell.height + 10; // Move position down for the next action cell
+            yPos += cell.height + 5;
         }
         this.expanded = true;
     }

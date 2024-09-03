@@ -60,6 +60,7 @@ public class Parser {
                         }
                         if ("coolDownOffset" in attributes) {
                             shoot.coolDownOffset = parseInt(attributes["coolDownOffset"]);
+                            shoot.msOffset = shoot.coolDownOffset;
                         }
                         action = shoot;
                         break;

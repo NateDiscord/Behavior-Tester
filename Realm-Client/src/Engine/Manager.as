@@ -37,7 +37,7 @@ public class Manager extends Sprite {
         this.map = new Map();
         this.tileMap = new TileMap(this.map, 50, 50, 40, 0xc6f);
 
-        var coords:Point = new Point(360, 640);
+        var coords:Point = new Point(250, 640);
         this.camera = new Camera(this.map, this.tileMap, coords);
         addChild(this.camera);
 
