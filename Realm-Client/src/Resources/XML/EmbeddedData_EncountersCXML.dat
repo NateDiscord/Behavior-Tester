@@ -17,7 +17,7 @@
 			<LifetimeMS>400</LifetimeMS>
    			<Size>140</Size>
 		</Projectile>
-		<Projectile id="2">
+		<Projectile id="1">
 			<ObjectId>Idol Blast</ObjectId>
 			<Speed>50</Speed>
 			<Damage>100</Damage>
@@ -25,7 +25,7 @@
    			<Size>160</Size>
 			<ConditionEffect duration=".8">Paralyzed</ConditionEffect>
 		</Projectile>
-		<Projectile id="3">
+		<Projectile id="2">
 			<ObjectId>Idol Blast</ObjectId>
 			<Speed>60</Speed>
 			<Damage>70</Damage>

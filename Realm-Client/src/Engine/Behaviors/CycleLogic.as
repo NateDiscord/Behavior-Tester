@@ -7,7 +7,6 @@ import Engine.Behaviors.Modals.Shoot;
 import Engine.Map;
 
 import Modules.Projectile;
-import Modules.ProjectileProperties;
 import flash.utils.getTimer;
 
 public class CycleLogic {
@@ -26,17 +25,12 @@ public class CycleLogic {
     }
 
     public function updateCooldownsAndShoot():void {
-        var projProps:ProjectileProperties = new ProjectileProperties();
-        projProps.objectType_ = 0x001f;
-        projProps.speed_ = 1000;
-        projProps.lifetime_ = 5000;
-
         var currentStateActions:Array = this.behavior.statesList_[this.currentState].actions_;
         for each (var projectile:Shoot in currentStateActions) {
             // Check if the cooldown has expired
             var elapsedTime:int = getTimer() - projectile.coolDownOffset;
             if (elapsedTime >= projectile.coolDown) {
-                var proj:Projectile = new Projectile(this.map, this.host, projProps, projectile.angle * (Math.PI / 180), this.lastUpdateTime);
+                var proj:Projectile = new Projectile(this.map, this.host, this.host.projectiles_[projectile.projectileIndex], projectile.angle * (Math.PI / 180), this.lastUpdateTime);
                 this.map.addChild(proj);
                 // Update the last time this action was performed
                 projectile.coolDownOffset = getTimer();

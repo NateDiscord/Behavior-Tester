@@ -49,6 +49,9 @@ public class Parser {
                 switch (actionType) {
                     case "shoot":
                         var shoot:Shoot = new Shoot();
+                        if ("projectileIndex" in attributes) {
+                            shoot.projectileIndex = parseInt(attributes["projectileIndex"]);
+                        }
                         if ("angle" in attributes) {
                             shoot.angle = parseInt(attributes["angle"]);
                         }
