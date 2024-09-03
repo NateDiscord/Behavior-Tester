@@ -8,15 +8,13 @@ import flash.ui.Keyboard;
 public class Camera extends Sprite {
 
     private var map:Map;
-    private var position:Point; // Position of the camera on the map
-    private var viewportSize:Point; // Size of the visible area (viewport)
+    private var position:Point;
 
-    private var speed:int = 5; // Speed of the camera movement
+    private var speed:int = 5;
 
-    public function Camera(map:Map, viewportWidth:Number, viewportHeight:Number) {
+    public function Camera(map:Map) {
         this.map = map;
-        this.position = new Point(0, 0); // Initial camera position
-        this.viewportSize = new Point(viewportWidth, viewportHeight);
+        this.position = new Point(0, 0);
         addChild(this.map);
 
         addEventListener("enterFrame", onEnterFrame);
@@ -24,7 +22,7 @@ public class Camera extends Sprite {
         Main.STAGE.addEventListener("keyUp", onKeyUp);
     }
 
-    private var keys:Object = {}; // Object to store key states
+    private var keys:Object = {};
 
     private function onKeyDown(e:KeyboardEvent):void {
         keys[e.keyCode] = true;
@@ -35,7 +33,6 @@ public class Camera extends Sprite {
     }
 
     private function onEnterFrame(e:Event):void {
-        // Handle camera movement based on key states
         if (keys[Keyboard.LEFT]) {
             position.x -= speed;
         }
@@ -49,21 +46,17 @@ public class Camera extends Sprite {
             position.y += speed;
         }
 
-        // Update the map position based on the camera's position
         map.x = -position.x;
         map.y = -position.y;
     }
 
-    // Function to move the camera to a new position
-    public function moveTo(newX:Number, newY:Number):void {
-        this.position.x = newX;
-        this.position.y = newY;
-    }
+    public function adjustPosition():void
+    {
+        position.x = -((Main.windowWidth / 2) - (800 / 2));
+        position.y = -((Main.windowHeight / 2) - (600 / 2));
 
-    // Function to center the camera on a specific point on the map
-    public function centerOn(point:Point):void {
-        this.position.x = point.x - viewportSize.x / 2;
-        this.position.y = point.y - viewportSize.y / 2;
+        map.x = -position.x;
+        map.y = -position.y;
     }
 }
 }

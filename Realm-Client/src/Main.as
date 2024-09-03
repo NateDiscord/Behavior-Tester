@@ -19,6 +19,8 @@ import flash.events.Event;
 public class Main extends Sprite {
 
     public static var STAGE:Stage;
+    public static var windowWidth:int = 800;
+    public static var windowHeight:int = 600;
 
     public var manager:Manager;
 
@@ -26,10 +28,9 @@ public class Main extends Sprite {
     {
         super();
         if(stage)
-            this.setup();
+            setup();
         else
-            addEventListener(Event.ADDED_TO_STAGE,this.onAddedToStage);
-        /* reads behavior file then loads game. */
+            addEventListener("addedToStage",this.onAddedToStage);
         new FileReader(onFileLoaded, "Resources/Behaviors/BehaviorDB.Test.txt");
     }
 
@@ -45,16 +46,17 @@ public class Main extends Sprite {
         addChild(this.manager);
     }
 
-    private function onAddedToStage(event:Event) : void
+    private function onAddedToStage(e:Event) : void
     {
-        removeEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
+        removeEventListener("addedToStage", onAddedToStage);
         setup();
     }
 
     private function setup() : void
     {
         new AssetLoader().load();
-        stage.scaleMode = StageScaleMode.NO_SCALE;
+        stage.align = "TL";
+        stage.scaleMode = "noScale";
         STAGE = stage;
     }
 }

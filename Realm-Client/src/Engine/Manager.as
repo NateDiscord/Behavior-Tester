@@ -7,6 +7,7 @@ import Engine.Behaviors.CycleLogic;
 import Engine.Behaviors.Modals.BehaviorDb;
 import Engine.Behaviors.Modals.Shoot;
 import Engine.Behaviors.Modals.State;
+import Engine.Interface.Interface;
 
 import Modules.Projectile;
 
@@ -22,24 +23,39 @@ import flash.utils.getTimer;
 
 public class Manager extends Sprite {
 
-    private var camera:Camera;
     private var map:Map;
+    public var camera:Camera;
+    public var gui:Interface;
+
     private var behavior:BehaviorDb;
     private var cycleLogic:CycleLogic;
     private var lastUpdateTime:int;
 
     public function Manager(behaviorData:BehaviorDb) {
         this.behavior = behaviorData;
+
         this.map = new Map();
-        this.camera = new Camera(this.map, 800, 600);
+        this.camera = new Camera(this.map);
         addChild(this.camera);
 
+        this.gui = new Interface();
+        addChild(this.gui);
+
+        /* debug enemy. */
         var obj:BasicObject = new BasicObject(this.map, ObjectLibrary.idToType_[this.behavior.name_]);
         this.map.addObj(obj);
 
         /* initialize CycleLogic. */
         this.cycleLogic = new CycleLogic(this.map, this.behavior, 0);
         addEventListener("enterFrame", onEnterFrame);
+        Main.STAGE.addEventListener("resize", onResize);
+    }
+
+    private function onResize(e:Event):void
+    {
+        Main.windowWidth = stage.stageWidth;
+        Main.windowHeight = stage.stageHeight;
+        this.camera.adjustPosition();
     }
 
     private function onEnterFrame(event:Event):void {
