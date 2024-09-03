@@ -12,6 +12,7 @@ import flash.display.BitmapData;
 
 import flash.display.Sprite;
 import flash.events.Event;
+import flash.geom.Point;
 import flash.utils.getTimer;
 
 public class Manager extends Sprite {
@@ -34,13 +35,15 @@ public class Manager extends Sprite {
         addChild(this.tileLayer);
 
         this.map = new Map();
-        this.tileMap = new TileMap(this.map, 30, 30, 40, 0xc6f);
-        this.camera = new Camera(this.map, this.tileMap);
+        this.tileMap = new TileMap(this.map, 50, 50, 40, 0xc6f);
+
+        var coords:Point = new Point(360, 640);
+        this.camera = new Camera(this.map, this.tileMap, coords);
         addChild(this.camera);
 
         var obj:Entity = new Entity(this.map, ObjectLibrary.idToType_[this.behavior.name_]);
-        obj.x = 400;
-        obj.y = 300;
+        obj.x = 1000;
+        obj.y = 1000;
         this.map.addChild(obj);
         Main.CURRENT_ENTITY = obj;
 

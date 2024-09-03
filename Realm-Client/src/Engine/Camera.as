@@ -12,10 +12,9 @@ public class Camera extends Sprite {
     private var map:Map;
     private var tileMap:TileMap;
     private var position:Point;
-    private var speed:int = 5;
 
-    public function Camera(map:Map, tileMap:TileMap) {
-        this.position = new Point(0, 0);
+    public function Camera(map:Map, tileMap:TileMap, startPos:Point = null) {
+        this.position = startPos;
 
         this.tileMap = tileMap;
         addChild(this.tileMap);
@@ -54,13 +53,13 @@ public class Camera extends Sprite {
         map.y = -position.y;
         tileMap.x = -position.x;
         tileMap.y = -position.y;
+
+        trace(position.x, position.y);
     }
 
     public function adjustPosition():void
     {
-        position.x = -((Main.windowWidth / 2) - (1280 / 2));
-        position.y = -((Main.windowHeight / 2) - (720 / 2));
-
+        var lastPos:Point = position;
         map.x = -position.x;
         map.y = -position.y;
         tileMap.x = -position.x;
