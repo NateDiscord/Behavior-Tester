@@ -1,4 +1,5 @@
 package Engine.Interface.Editor {
+import Display.Assets.Elements.Scrollbar;
 import Display.Control.ObjectLibrary;
 import Display.Control.Redrawers.TextureRedrawer;
 import Display.Text.SimpleText;
@@ -7,6 +8,8 @@ import Display.Util.GraphicsUtil;
 import Display.Util.TextUtil;
 
 import Engine.Interface.Interface;
+
+import flash.events.Event;
 
 import flash.geom.Rectangle;
 import flash.display.Bitmap;
@@ -26,16 +29,19 @@ public class EditorPanel extends Sprite {
     public static const PANEL_HEIGHT:int = 700;
     public static const INSET_HEIGHT:int = 660;
 
+    private var container:Sprite;
+    private var inset:Sprite;
+
     private var headerText:SimpleText;
+    private var lineBreak:Sprite;
+    private var scrollBar:Scrollbar;
+    public var stateCells:Vector.<StateCell>;
+
     private var enemyBitmap:Bitmap;
     private var enemyName:SimpleText;
     private var enemyHealth:SimpleText;
-    private var lineBreak:Sprite;
-    private var container:Sprite;
-    private var inset:Sprite;
     private var editorBounds:Sprite;
     private var editorMask:Sprite;
-    public var stateCells:Vector.<StateCell>;
 
     private var host:Interface;
     private var offset:Point;
@@ -91,11 +97,12 @@ public class EditorPanel extends Sprite {
         this.lineBreak.y = this.enemyBitmap.y + this.enemyBitmap.height + 10;
         this.inset.addChild(this.lineBreak);
 
-        this.editorBounds = setBounds();
+        this.editorBounds = new Sprite();
         this.editorMask = setBounds();
-        this.editorBounds.y = this.editorMask.y = this.lineBreak.y + 3;
+        this.editorBounds.y = this.editorMask.y = this.lineBreak.y + 5;
         this.editorBounds.mask = this.editorMask;
         this.inset.addChild(this.editorBounds);
+        this.inset.addChild(this.editorMask);
     }
 
     private function setBounds():Sprite {
@@ -103,7 +110,7 @@ public class EditorPanel extends Sprite {
         var g:Graphics = s.graphics;
         g.clear();
         g.beginFill(0, 0);
-        g.drawRect(0, 0, INSET_WIDTH, INSET_HEIGHT - this.lineBreak.y + 3);
+        g.drawRect(0, 0, INSET_WIDTH, INSET_HEIGHT - (this.lineBreak.y + 5) - 10);
         g.endFill();
         return s;
     }
@@ -141,7 +148,8 @@ public class EditorPanel extends Sprite {
         this.enemyHealth.x = this.enemyName.x;
         this.enemyHealth.y = this.enemyName.y + this.enemyName.height - 3;
 
-        for (var i:int = 0; i < this.stateCells.length - 1; i++)
+        var len:int = this.stateCells.length - 1;
+        for (var i:int = 0; i < len; i++)
         {
             this.stateCells[i].x = 5;
             if (i == 0)
@@ -149,6 +157,30 @@ public class EditorPanel extends Sprite {
             else
                 this.stateCells[i].y = 5 + (this.stateCells[i - 1].height * i) + (5 * i);
         }
+
+        if (this.scrollBar)
+            if (this.stateCells[len].y < 400)
+            {
+                this.inset.removeChild(this.scrollBar);
+                this.scrollBar = null;
+            }
+
+        if (!this.scrollBar)
+            if (this.stateCells[len].y > 400)
+            {
+                this.scrollBar = new Scrollbar(8, 550);
+                this.scrollBar.setIndicatorSize(this.editorMask.height, this.editorBounds.height);
+                this.scrollBar.x = INSET_WIDTH - this.scrollBar.width - 3;
+                this.scrollBar.y = this.editorMask.y + 5;
+                this.scrollBar.addEventListener("change", onScrollBarChange);
+                this.inset.addChild(this.scrollBar);
+            }
+    }
+
+    private function onScrollBarChange(event:Event) : void
+    {
+        var offset:int = this.lineBreak.y + 3;
+        this.editorBounds.y = offset - (this.scrollBar.pos() * (this.editorBounds.height - this.editorMask.height));
     }
 
     private function enableDragging():void {

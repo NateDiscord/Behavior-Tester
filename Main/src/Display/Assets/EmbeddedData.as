@@ -1,5 +1,5 @@
 package Display.Assets {
-import Resources.XML.*;
+import Resources.Data.*;
 
 public class EmbeddedData {
     public function EmbeddedData()

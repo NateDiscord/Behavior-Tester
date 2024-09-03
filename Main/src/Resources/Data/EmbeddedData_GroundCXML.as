@@ -1,4 +1,4 @@
-package Resources.XML {
+package Resources.Data {
 import mx.core.*;
 
 [Embed(source="EmbeddedData_GroundCXML.dat", mimeType="application/octet-stream")]
