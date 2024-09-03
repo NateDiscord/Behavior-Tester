@@ -29,7 +29,8 @@ public class TextInputField extends Sprite
         this.nameText_.filters = [new DropShadowFilter(0,0,0)];
         addChild(this.nameText_);
         this.inputText_ = new SimpleText(inputWidth,0xcccccc,true,width,height);
-        this.inputText_.y = 2;
+        this.inputText_.setBold(true);
+        this.inputText_.y = 1;
         this.inputText_.x = 6;
         this.inputText_.border = false;
         this.inputText_.displayAsPassword = isPassword;

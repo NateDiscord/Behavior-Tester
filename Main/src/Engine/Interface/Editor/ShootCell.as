@@ -41,7 +41,7 @@ public class ShootCell extends Sprite {
         {
             this.parameters[i] = new CellParameter(PARAMETERS[i], DISPLAY_NAMES[i]);
             this.parameters[i].x = 100 + (int(i % 2) * 110);
-            this.parameters[i].y = 4 + (24 * int(i / 2));
+            this.parameters[i].y = 7 + (25 * int(i / 2));
             addChild(this.parameters[i]);
             this.parameters.push(this.parameters[i]);
         }
@@ -49,6 +49,7 @@ public class ShootCell extends Sprite {
 
     private function drawBackground():void
     {
+        graphics.clear();
         graphics.beginFill(0x2b2b2b, 1);
         graphics.lineStyle(2, 0x151515);
         graphics.drawRoundRect(0, 0, EditorPanel.INSET_WIDTH - 20, 60, 15, 15);

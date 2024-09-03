@@ -142,18 +142,18 @@
          <path-element>C:/Users/Kevin/Downloads/AIRSDK_32.0.0.116/frameworks/libs/air/servicemonitor.swc</path-element>
          <path-element>C:/Users/Kevin/Downloads/AIRSDK_32.0.0.116/frameworks/libs/air/applicationupdater.swc</path-element>
          <path-element>C:/Users/Kevin/Downloads/AIRSDK_32.0.0.116/frameworks/libs/air/applicationupdater_ui.swc</path-element>
-         <path-element>C:/Users/Kevin/Documents/GitHub/Behavior-Tester/Realm-Client/libs/as3-signals.swc</path-element>
-         <path-element>C:/Users/Kevin/Documents/GitHub/Behavior-Tester/Realm-Client/libs/as3core.swc</path-element>
-         <path-element>C:/Users/Kevin/Documents/GitHub/Behavior-Tester/Realm-Client/libs/as3crypto.swc</path-element>
-         <path-element>C:/Users/Kevin/Documents/GitHub/Behavior-Tester/Realm-Client/libs/blooddy_crypto.swc</path-element>
-         <path-element>C:/Users/Kevin/Documents/GitHub/Behavior-Tester/Realm-Client/libs/Console.swc</path-element>
-         <path-element>C:/Users/Kevin/Documents/GitHub/Behavior-Tester/Realm-Client/libs/GTween-v2.01.swc</path-element>
-         <path-element>C:/Users/Kevin/Documents/GitHub/Behavior-Tester/Realm-Client/libs/hamcrest-as3-flex-1.1.3.swc</path-element>
-         <path-element>C:/Users/Kevin/Documents/GitHub/Behavior-Tester/Realm-Client/libs/Hi-Res-Stats.swc</path-element>
-         <path-element>C:/Users/Kevin/Documents/GitHub/Behavior-Tester/Realm-Client/libs/ionel.swc</path-element>
-         <path-element>C:/Users/Kevin/Documents/GitHub/Behavior-Tester/Realm-Client/libs/robotlegs.swc</path-element>
-         <path-element>C:/Users/Kevin/Documents/GitHub/Behavior-Tester/Realm-Client/libs/starling.swc</path-element>
-         <path-element>C:/Users/Kevin/Documents/GitHub/Behavior-Tester/Realm-Client/libs/Swiftsuspenders-v2.0.0rc1.swc</path-element>
+         <path-element>C:/Users/Kevin/Documents/GitHub/BehaviorEditor/Main/libs/as3-signals.swc</path-element>
+         <path-element>C:/Users/Kevin/Documents/GitHub/BehaviorEditor/Main/libs/as3core.swc</path-element>
+         <path-element>C:/Users/Kevin/Documents/GitHub/BehaviorEditor/Main/libs/as3crypto.swc</path-element>
+         <path-element>C:/Users/Kevin/Documents/GitHub/BehaviorEditor/Main/libs/blooddy_crypto.swc</path-element>
+         <path-element>C:/Users/Kevin/Documents/GitHub/BehaviorEditor/Main/libs/Console.swc</path-element>
+         <path-element>C:/Users/Kevin/Documents/GitHub/BehaviorEditor/Main/libs/GTween-v2.01.swc</path-element>
+         <path-element>C:/Users/Kevin/Documents/GitHub/BehaviorEditor/Main/libs/hamcrest-as3-flex-1.1.3.swc</path-element>
+         <path-element>C:/Users/Kevin/Documents/GitHub/BehaviorEditor/Main/libs/Hi-Res-Stats.swc</path-element>
+         <path-element>C:/Users/Kevin/Documents/GitHub/BehaviorEditor/Main/libs/ionel.swc</path-element>
+         <path-element>C:/Users/Kevin/Documents/GitHub/BehaviorEditor/Main/libs/robotlegs.swc</path-element>
+         <path-element>C:/Users/Kevin/Documents/GitHub/BehaviorEditor/Main/libs/starling.swc</path-element>
+         <path-element>C:/Users/Kevin/Documents/GitHub/BehaviorEditor/Main/libs/Swiftsuspenders-v2.0.0rc1.swc</path-element>
       </library-path>
       <!-- compiler.locale: specifies the locale for internationalization-->
       <locale>
@@ -226,7 +226,7 @@
       -->
       <!-- compiler.source-path: list of path elements that form the roots of ActionScript class hierarchies-->
       <source-path>
-         <path-element>C:/Users/Kevin/Documents/GitHub/Behavior-Tester/Realm-Client/src</path-element>
+         <path-element>C:/Users/Kevin/Documents/GitHub/BehaviorEditor/Main/src</path-element>
       </source-path>
       <!-- compiler.strict: runs the AS3 compiler in strict error checking mode.-->
       <strict>true</strict>
@@ -492,7 +492,7 @@
    <link-report>filename</link-report>
    -->
    <!-- load-config: load a file containing configuration options-->
-   <load-config>C:\Users\Kevin\.IntelliJIdea2019.1\system\compile-server\main_9456e3f5\_temp_\IntelliJ_IDEA\idea-8761F5BA-3565F32.xml</load-config>
+   <load-config>C:\Users\Kevin\.IntelliJIdea2019.1\system\compile-server\main_fdc472de\_temp_\IntelliJ_IDEA\idea-8761F5BA-3565F32.xml</load-config>
    <!-- load-externs: an XML file containing <def>, <pre>, and <ext> symbols to omit from linking when building a SWF-->
    <!-- load-externs usage:
    <load-externs>filename</load-externs>
@@ -544,7 +544,7 @@
       -->
    </metadata>
    <!-- output: the filename of the SWF movie to create-->
-   <output>C:/Users/Kevin/Documents/GitHub/Behavior-Tester/Realm-Client/bin-debug/Main.swf</output>
+   <output>C:/Users/Kevin/Documents/GitHub/BehaviorEditor/Main/bin-debug/Main.swf</output>
    <!-- raw-metadata: XML text to store in the SWF metadata (overrides metadata.* configuration)-->
    <!-- raw-metadata usage:
    <raw-metadata>text</raw-metadata>
