@@ -4,14 +4,14 @@ import Engine.Behaviors.Modals.Shoot;
 import Engine.Behaviors.Modals.State;
 
 public class Parser {
-    public static function ParseData(content:String) : BehaviorDb {
+    public static function ParseData(content:String):BehaviorDb {
         // Remove leading and trailing spaces and newlines
         content = content.replace(/^\s+|\s+$/g, '');
 
         // Regex patterns for parsing
         var entityPattern:RegExp = /\[entity="([^"]+)"\]/;
         var statePattern:RegExp = /\[state="([^"]+)"\]\s*\{([^}]*)\}/g;
-        var actionPattern:RegExp = /\[(\w+),\s*angle="([^"]+)",\s*coolDown="([^"]+)"\]/g;
+        var actionPattern:RegExp = /\[action="(\w+)"(?:,\s*(\w+)="([^"]+)")?(?:,\s*(\w+)="([^"]+)")?(?:,\s*(\w+)="([^"]+)")?\]/g;
 
         // Extract entity
         var entityMatch:Array = entityPattern.exec(content);
@@ -37,15 +37,38 @@ public class Parser {
             var actionMatch:Array;
             while ((actionMatch = actionPattern.exec(actionsContent)) != null) {
                 var actionType:String = actionMatch[1];
-                var angle:int = parseInt(actionMatch[2]);
-                var coolDown:int = parseInt(actionMatch[3]);
+                var attributes:Object = {};
 
-                if (actionType == "shoot") {
-                    var shoot:Shoot = new Shoot();
-                    shoot.angle = angle;
-                    shoot.coolDown = coolDown;
-                    actions.push(shoot);
+                // Collect attributes
+                if (actionMatch[2]) attributes[actionMatch[2]] = actionMatch[3];
+                if (actionMatch[4]) attributes[actionMatch[4]] = actionMatch[5];
+                if (actionMatch[6]) attributes[actionMatch[6]] = actionMatch[7];
+
+                // Use a switch statement to handle different action types
+                var action:Shoot; // Assume Action is a base class for different actions
+                switch (actionType) {
+                    case "shoot":
+                        var shoot:Shoot = new Shoot();
+                        if ("projectileIndex" in attributes) {
+                            shoot.projectileIndex = parseInt(attributes["projectileIndex"]);
+                        }
+                        if ("angle" in attributes) {
+                            shoot.angle = parseInt(attributes["angle"]);
+                        }
+                        if ("coolDown" in attributes) {
+                            shoot.coolDown = parseInt(attributes["coolDown"]);
+                        }
+                        if ("coolDownOffset" in attributes) {
+                            shoot.coolDownOffset = parseInt(attributes["coolDownOffset"]);
+                        }
+                        action = shoot;
+                        break;
+                        // Add additional cases for other action types
+                    default:
+                        throw new Error("Unknown action type: " + actionType);
                 }
+
+                actions.push(action);
             }
 
             state.actions_ = actions;

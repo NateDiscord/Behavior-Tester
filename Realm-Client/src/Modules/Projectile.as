@@ -1,5 +1,7 @@
 package Modules {
 import Display.Assets.Objects.BasicObject;
+import Display.Assets.Objects.Entity;
+import Display.Control.ObjectLibrary;
 import Display.Util.Trig;
 import Engine.Map;
 import flash.geom.Point;
@@ -11,13 +13,22 @@ public class Projectile extends BasicObject
     public var angle_:Number;
     private var staticPoint_:Point;
 
-    public function Projectile(map:Map, projProps:ProjectileProperties, angle:Number, startTime:int) {
+    public function Projectile(map:Map, host:Entity, projProps:ProjectileProperties, angle:Number, startTime:int) {
         this.projProps = projProps;
-        super(map, this.projProps.objectType_);
         this.startTime_ = startTime;
         this.angle_ = Trig.boundToPI(angle);
+        this.x = host.x;
+        this.y = host.y;
         this.staticPoint_ = new Point(this.x, this.y);
+        var objectType:int = ObjectLibrary.idToType_[this.projProps.objectId_];
+        var objectXML:XML = ObjectLibrary.xmlLibrary_[objectType];
         this.rotation = angle * (180 / Math.PI);
+        if (objectXML.hasOwnProperty("AngleCorrection")) {
+            var angleCorrection:Number = Number(objectXML.AngleCorrection);
+            angleCorrection = angleCorrection * 0.8* (180 / Math.PI);
+            this.rotation += angleCorrection;
+        }
+        super(map, objectType, this.projProps.size_);
     }
 
     private function positionAt(elapsed:int, p:Point):void {

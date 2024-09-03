@@ -16,13 +16,11 @@ public class BasicObject extends Sprite {
     public var objectType:int;
     public var size:int;
 
-    public function BasicObject(map:Map, objectType:int) {
+    public function BasicObject(map:Map, objectType:int, size:int = 100) {
         super();
         this.map = map;
         this.objectType = objectType;
-        this.size = 100;
-        this.x = 400;
-        this.y = 300;
+        this.size = size;
         this.RedrawBitmap();
         this.texture.x = this.texture.x - (this.texture.width / 2);
         this.texture.y = this.texture.y - (this.texture.height / 2);

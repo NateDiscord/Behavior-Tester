@@ -1,5 +1,6 @@
 package Engine {
 import Display.Assets.Objects.BasicObject;
+import Display.Assets.Objects.Entity;
 import Display.Control.ObjectLibrary;
 
 import Engine.Behaviors.CycleLogic;
@@ -27,6 +28,7 @@ public class Manager extends Sprite {
     public var camera:Camera;
     public var gui:Interface;
 
+    private var camera:Camera;
     private var behavior:BehaviorDb;
     private var cycleLogic:CycleLogic;
     private var lastUpdateTime:int;
@@ -44,6 +46,13 @@ public class Manager extends Sprite {
         /* debug enemy. */
         var obj:BasicObject = new BasicObject(this.map, ObjectLibrary.idToType_[this.behavior.name_]);
         this.map.addObj(obj);
+        this.camera = new Camera(this.map, 800, 600);
+        addChild(this.camera);
+
+        var obj:Entity = new Entity(this.map, ObjectLibrary.idToType_[this.behavior.name_]);
+        obj.x = 400;
+        obj.y = 300;
+        this.map.addChild(obj);
 
         /* initialize CycleLogic. */
         this.cycleLogic = new CycleLogic(this.map, this.behavior, 0);
@@ -65,7 +74,7 @@ public class Manager extends Sprite {
             if (child)
                 child.update(currentTime);
         }
-        /* update the CycleLogic's lastUpdateTime. */
+	
         this.cycleLogic.setLastUpdateTime(currentTime);
         this.cycleLogic.updateCooldownsAndShoot();
         this.lastUpdateTime = currentTime;
