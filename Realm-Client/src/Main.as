@@ -1,5 +1,6 @@
 package {
 import Display.Assets.AssetLoader;
+import Display.Assets.Objects.Entity;
 
 import Engine.Behaviors.Modals.BehaviorDb;
 import Engine.Behaviors.Modals.Shoot;
@@ -23,6 +24,8 @@ public class Main extends Sprite {
     public static var windowHeight:int = 600;
 
     public var manager:Manager;
+
+    public static var CURRENT_ENTITY:Entity;
 
     public function Main()
     {

@@ -7,13 +7,19 @@ import flash.ui.Keyboard;
 
 public class Camera extends Sprite {
 
+    public static var MOVE_SPEED:int = 5;
+
     private var map:Map;
+    private var tileMap:TileMap;
     private var position:Point;
     private var speed:int = 5;
 
-    public function Camera(map:Map) {
-        this.map = map;
+    public function Camera(map:Map, tileMap:TileMap) {
         this.position = new Point(0, 0);
+
+        this.tileMap = tileMap;
+        addChild(this.tileMap);
+        this.map = map;
         addChild(this.map);
 
         addEventListener("enterFrame", onEnterFrame);
@@ -22,21 +28,6 @@ public class Camera extends Sprite {
     }
 
     private var keys:Object = {};
-    private var position:Point; // Position of the camera on the map
-    private var viewportSize:Point; // Size of the visible area (viewport)
-
-    private var speed:int = 5; // Speed of the camera movement
-
-    public function Camera(map:Map, viewportWidth:Number, viewportHeight:Number) {
-        this.map = map;
-        this.position = new Point(0, 0); // Initial camera position
-        this.viewportSize = new Point(viewportWidth, viewportHeight);
-        addChild(this.map);
-
-        addEventListener("enterFrame", onEnterFrame);
-        WebClient.STAGE.addEventListener("keyDown", onKeyDown);
-        WebClient.STAGE.addEventListener("keyUp", onKeyUp);
-    }
 
     private function onKeyDown(e:KeyboardEvent):void {
         keys[e.keyCode] = true;
@@ -48,19 +39,21 @@ public class Camera extends Sprite {
 
     private function onEnterFrame(e:Event):void {
         if (keys[Keyboard.LEFT]) {
-            position.x -= speed;
+            position.x -= MOVE_SPEED;
         }
         if (keys[Keyboard.RIGHT]) {
-            position.x += speed;
+            position.x += MOVE_SPEED;
         }
         if (keys[Keyboard.UP]) {
-            position.y -= speed;
+            position.y -= MOVE_SPEED;
         }
         if (keys[Keyboard.DOWN]) {
-            position.y += speed;
+            position.y += MOVE_SPEED;
         }
         map.x = -position.x;
         map.y = -position.y;
+        tileMap.x = -position.x;
+        tileMap.y = -position.y;
     }
 
     public function adjustPosition():void
@@ -70,19 +63,14 @@ public class Camera extends Sprite {
 
         map.x = -position.x;
         map.y = -position.y;
+        tileMap.x = -position.x;
+        tileMap.y = -position.y;
     }
-}
-}
+
     // Function to move the camera to a new position
     public function moveTo(newX:Number, newY:Number):void {
         this.position.x = newX;
         this.position.y = newY;
-    }
-
-    // Function to center the camera on a specific point on the map
-    public function centerOn(point:Point):void {
-        this.position.x = point.x - viewportSize.x / 2;
-        this.position.y = point.y - viewportSize.y / 2;
     }
 }
 }

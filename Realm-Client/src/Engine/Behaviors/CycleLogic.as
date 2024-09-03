@@ -19,7 +19,7 @@ public class CycleLogic {
     public function CycleLogic(map:Map, behavior:BehaviorDb, currentState:int) {
         this.map = map;
         this.behavior = behavior;
-        this.host = this.map.FindEntity(ObjectLibrary.idToType_[behavior.name_]);
+        this.host = this.map.findEntity(ObjectLibrary.idToType_[behavior.name_]);
         this.currentState = currentState;
         this.lastUpdateTime = 0;
     }
@@ -29,8 +29,6 @@ public class CycleLogic {
         for each (var projectile:Shoot in currentStateActions) {
             var elapsedTime:int = getTimer() - projectile.coolDownOffset;
             if (elapsedTime >= projectile.coolDown) {
-                var proj:Projectile = new Projectile(this.map, projProps, projectile.angle * (Math.PI / 180), this.lastUpdateTime);
-                this.map.addObj(proj);
                 var proj:Projectile = new Projectile(this.map, this.host, this.host.projectiles_[projectile.projectileIndex], projectile.angle * (Math.PI / 180), this.lastUpdateTime);
                 this.map.addChild(proj);
                 // Update the last time this action was performed

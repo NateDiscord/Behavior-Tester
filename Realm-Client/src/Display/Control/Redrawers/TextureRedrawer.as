@@ -40,7 +40,8 @@ public class TextureRedrawer {
             return redrawCaches[tex][hash];
         }
         var modTex:BitmapData = resize(tex, null, size, padBottom, 0, 0, sMult);
-        //modTex = GlowRedrawer.outlineGlow(modTex, glowColor, glowMult, useCache);
+        if (glowColor != 0)
+            modTex = GlowRedrawer.outlineGlow(modTex, glowColor, glowMult, useCache);
         if (useCache) {
             cache(tex, hash, modTex);
         }

@@ -2,24 +2,16 @@ package Engine {
 import Display.Assets.Objects.BasicObject;
 import Display.Assets.Objects.Entity;
 import Display.Control.ObjectLibrary;
-
 import Engine.Behaviors.CycleLogic;
-
 import Engine.Behaviors.Modals.BehaviorDb;
-import Engine.Behaviors.Modals.Shoot;
-import Engine.Behaviors.Modals.State;
 import Engine.Interface.Interface;
 
-import Modules.Projectile;
+import flash.display.Bitmap;
 
-import Modules.ProjectileProperties;
+import flash.display.BitmapData;
 
 import flash.display.Sprite;
-
 import flash.events.Event;
-
-import flash.events.TimerEvent;
-import flash.utils.Timer;
 import flash.utils.getTimer;
 
 public class Manager extends Sprite {
@@ -27,32 +19,33 @@ public class Manager extends Sprite {
     private var map:Map;
     public var camera:Camera;
     public var gui:Interface;
+    public var tileMap:TileMap;
 
-    private var camera:Camera;
-    private var behavior:BehaviorDb;
+    private var tileLayer:Sprite;
+
+    public var behavior:BehaviorDb;
     private var cycleLogic:CycleLogic;
     private var lastUpdateTime:int;
 
     public function Manager(behaviorData:BehaviorDb) {
         this.behavior = behaviorData;
 
+        this.tileLayer = new Sprite();
+        addChild(this.tileLayer);
+
         this.map = new Map();
-        this.camera = new Camera(this.map);
-        addChild(this.camera);
-
-        this.gui = new Interface();
-        addChild(this.gui);
-
-        /* debug enemy. */
-        var obj:BasicObject = new BasicObject(this.map, ObjectLibrary.idToType_[this.behavior.name_]);
-        this.map.addObj(obj);
-        this.camera = new Camera(this.map, 800, 600);
+        this.tileMap = new TileMap(this.map, 30, 30, 40, 0xc6f);
+        this.camera = new Camera(this.map, this.tileMap);
         addChild(this.camera);
 
         var obj:Entity = new Entity(this.map, ObjectLibrary.idToType_[this.behavior.name_]);
         obj.x = 400;
         obj.y = 300;
         this.map.addChild(obj);
+        Main.CURRENT_ENTITY = obj;
+
+        this.gui = new Interface(this);
+        addChild(this.gui);
 
         /* initialize CycleLogic. */
         this.cycleLogic = new CycleLogic(this.map, this.behavior, 0);
@@ -65,6 +58,7 @@ public class Manager extends Sprite {
         Main.windowWidth = stage.stageWidth;
         Main.windowHeight = stage.stageHeight;
         this.camera.adjustPosition();
+        this.gui.onResize();
     }
 
     private function onEnterFrame(event:Event):void {

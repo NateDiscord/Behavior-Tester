@@ -36,7 +36,7 @@ public class GlowRedrawer {
 
         TextureRedrawer.OUTLINE_FILTER.blurX = blur;
         TextureRedrawer.OUTLINE_FILTER.blurY = blur;
-        TextureRedrawer.OUTLINE_FILTER.color = 0xFFFFFF;
+        TextureRedrawer.OUTLINE_FILTER.color = color;
         resultBitmapData.applyFilter(resultBitmapData, resultBitmapData.rect, PointUtil.ORIGIN, TextureRedrawer.OUTLINE_FILTER);
 
         if (color != 0xFFFFFFFF) {

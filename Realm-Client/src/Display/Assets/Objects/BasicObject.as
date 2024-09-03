@@ -15,20 +15,22 @@ public class BasicObject extends Sprite {
     public var texture:Bitmap;
     public var objectType:int;
     public var size:int;
+    public var outline:Boolean;
 
-    public function BasicObject(map:Map, objectType:int, size:int = 100) {
+    public function BasicObject(map:Map, objectType:int, size:int = 100, outline:Boolean = false) {
         super();
         this.map = map;
         this.objectType = objectType;
         this.size = size;
-        this.RedrawBitmap();
+        this.outline = outline;
+        this.redrawBitmap();
         this.texture.x = this.texture.x - (this.texture.width / 2);
         this.texture.y = this.texture.y - (this.texture.height / 2);
     }
 
-    private function RedrawBitmap() : void {
+    public function redrawBitmap() : void {
         var bitmap:BitmapData = ObjectLibrary.getRedrawnTextureFromType(this.objectType);
-        bitmap = TextureRedrawer.redraw(bitmap, this.size, true, 0);
+        bitmap = TextureRedrawer.redraw(bitmap, this.size, true, this.outline ? 0x000001 : 0);
         this.texture = new Bitmap(bitmap);
         this.addChild(this.texture);
     }

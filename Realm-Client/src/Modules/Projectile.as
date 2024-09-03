@@ -28,7 +28,7 @@ public class Projectile extends BasicObject
             angleCorrection = angleCorrection * 0.8* (180 / Math.PI);
             this.rotation += angleCorrection;
         }
-        super(map, objectType, this.projProps.size_);
+        super(map, objectType, this.projProps.size_, true);
     }
 
     private function positionAt(elapsed:int, p:Point):void {
