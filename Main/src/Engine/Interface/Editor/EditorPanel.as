@@ -7,6 +7,8 @@ import Display.Util.FilterUtil;
 import Display.Util.GraphicsUtil;
 import Display.Util.TextUtil;
 
+import Engine.File.Parameters;
+
 import Engine.Interface.Interface;
 
 import flash.events.Event;
@@ -34,6 +36,7 @@ public class EditorPanel extends Sprite {
 
     private var headerText:SimpleText;
     private var lineBreak:Sprite;
+    private var lineBreakTwo:Sprite;
     private var scrollBar:Scrollbar;
     public var stateCells:Vector.<StateCell>;
 
@@ -103,6 +106,11 @@ public class EditorPanel extends Sprite {
         this.editorBounds.mask = this.editorMask;
         this.inset.addChild(this.editorBounds);
         this.inset.addChild(this.editorMask);
+
+        this.lineBreakTwo = addLineBreak();
+        this.lineBreakTwo.x = 5;
+        this.lineBreakTwo.y = this.editorMask.y + this.editorMask.height + 5;
+        this.inset.addChild(this.lineBreakTwo);
     }
 
     private function setBounds():Sprite {
@@ -110,7 +118,7 @@ public class EditorPanel extends Sprite {
         var g:Graphics = s.graphics;
         g.clear();
         g.beginFill(0, 0);
-        g.drawRect(0, 0, INSET_WIDTH, INSET_HEIGHT - (this.lineBreak.y + 5) - 10);
+        g.drawRect(0, 0, INSET_WIDTH, INSET_HEIGHT - (this.lineBreak.y + 5) - 20);
         g.endFill();
         return s;
     }
@@ -168,7 +176,7 @@ public class EditorPanel extends Sprite {
         if (!this.scrollBar)
             if (this.stateCells[len].y > 400)
             {
-                this.scrollBar = new Scrollbar(6, 573);
+                this.scrollBar = new Scrollbar(6, 563);
                 this.scrollBar.setIndicatorSize(this.editorMask.height, this.editorBounds.height);
                 this.scrollBar.x = INSET_WIDTH - this.scrollBar.width - 3;
                 this.scrollBar.y = this.editorMask.y + 5;
@@ -188,9 +196,10 @@ public class EditorPanel extends Sprite {
     }
 
     private function startDragPanel(event:MouseEvent):void {
+        if (Parameters.data_["scrolling"])
+            return;
         this.offset.x = event.stageX - this.x;
         this.offset.y = event.stageY - this.y;
-
         stage.addEventListener("mouseMove", dragPanel);
         stage.addEventListener("mouseUp", stopDragPanel);
     }

@@ -30,6 +30,7 @@ public class Parameters
             data_ = new Object();
         }
         Parameters.data_["entities"] = null;
+        Parameters.data_["scrolling"] = false;
         setDefaults();
         save();
     }
