@@ -191,6 +191,16 @@ public class EditorPanel extends Sprite {
         this.editorBounds.y = offset - (this.scrollBar.pos() * (this.editorBounds.height - this.editorMask.height));
     }
 
+    public function resize():void
+    {
+        var scale:Number = Main.STAGE.stageHeight / 720;
+        this.scaleX = this.scaleY = scale > 1 ? 1 : scale;
+        if (!this.hasBeenMoved)
+            this.y = (Main.STAGE.stageHeight - this.height) / 2;
+        this.x = Math.max(5, Math.min(this.x, Main.windowWidth - this.width - 5));
+        this.y = Math.max(5, Math.min(this.y, Main.windowHeight - this.height - 5));
+    }
+
     private function enableDragging():void {
         addEventListener("mouseDown", startDragPanel);
     }
