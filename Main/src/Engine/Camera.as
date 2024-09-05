@@ -1,4 +1,6 @@
 package Engine {
+import Engine.File.Parameters;
+
 import flash.display.Sprite;
 import flash.events.Event;
 import flash.events.KeyboardEvent;
@@ -6,8 +8,6 @@ import flash.geom.Point;
 import flash.ui.Keyboard;
 
 public class Camera extends Sprite {
-
-    public static var MOVE_SPEED:int = 5;
 
     private var map:Map;
     private var tileMap:TileMap;
@@ -40,19 +40,15 @@ public class Camera extends Sprite {
     }
 
     private function onEnterFrame(e:Event):void {
-        if (keys[Keyboard.LEFT]) {
-            position.x -= MOVE_SPEED;
-        }
-        if (keys[Keyboard.RIGHT]) {
-            position.x += MOVE_SPEED;
-        }
-        if (keys[Keyboard.UP]) {
-            position.y -= MOVE_SPEED;
-        }
-        if (keys[Keyboard.DOWN]) {
-            position.y += MOVE_SPEED;
-        }
-
+        var speed:Number = Parameters.data_["cameraSpeed"];
+        if (keys[Keyboard.LEFT])
+            position.x -= speed;
+        if (keys[Keyboard.RIGHT])
+            position.x += speed;
+        if (keys[Keyboard.UP])
+            position.y -= speed;
+        if (keys[Keyboard.DOWN])
+            position.y += speed;
         updateCamera();
     }
 
@@ -63,10 +59,16 @@ public class Camera extends Sprite {
 
         position.x -= offsetX;
         position.y -= offsetY;
-
         lastWindowSize = newSize;
-
         updateCamera();
+    }
+
+    public function centerTo(x:Number, y:Number):void
+    {
+        var offsetX:Number = (x - lastWindowSize.x) / 2;
+        var offsetY:Number = (y - lastWindowSize.y) / 2;
+        position.x -= offsetX;
+        position.y -= offsetY;
     }
 
     private function updateCamera():void {

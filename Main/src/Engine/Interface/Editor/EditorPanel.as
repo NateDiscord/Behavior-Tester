@@ -168,7 +168,7 @@ public class EditorPanel extends Sprite {
         if (!this.scrollBar)
             if (this.stateCells[len].y > 400)
             {
-                this.scrollBar = new Scrollbar(8, 550);
+                this.scrollBar = new Scrollbar(6, 573);
                 this.scrollBar.setIndicatorSize(this.editorMask.height, this.editorBounds.height);
                 this.scrollBar.x = INSET_WIDTH - this.scrollBar.width - 3;
                 this.scrollBar.y = this.editorMask.y + 5;

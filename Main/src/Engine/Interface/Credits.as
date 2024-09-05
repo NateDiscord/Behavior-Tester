@@ -2,11 +2,13 @@ package Engine.Interface {
 import Display.Text.SimpleText;
 import Display.Util.FilterUtil;
 
+import Engine.File.Parameters;
+
 import flash.display.Sprite;
 
 public class Credits extends Sprite {
 
-    public static const TITLE:String = "Behavior Editor v1.0";
+    public static const TITLE:String = "Behavior Editor " + Parameters.BUILD;
     public static const DESC:String = "by: Heffy & runes.";
 
     public function Credits() {

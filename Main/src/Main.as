@@ -8,6 +8,7 @@ import Engine.Behaviors.Modals.State;
 import Engine.Behaviors.Parser;
 
 import Engine.File.FileReader;
+import Engine.File.Parameters;
 
 import Engine.Manager;
 
@@ -60,6 +61,7 @@ public class Main extends Sprite {
     private function setup() : void
     {
         new AssetLoader().load();
+        Parameters.load();
         stage.align = "TL";
         stage.scaleMode = "noScale";
         STAGE = stage;
