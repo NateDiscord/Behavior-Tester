@@ -1,0 +1,7 @@
+<GroundTypes>
+	<Ground type="0x60" id="Rock">
+		<Texture><File>lofiEnvironment</File><Index>0x60</Index></Texture>
+		<BlendPriority>10</BlendPriority>
+		<RandomOffset/>
+	</Ground>
+</GroundTypes>
