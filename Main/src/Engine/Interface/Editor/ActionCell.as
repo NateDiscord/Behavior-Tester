@@ -10,7 +10,6 @@ public class ActionCell extends Sprite {
     private var action:Object;
 
     public var actionText:SimpleText;
-    public var subText:SimpleText;
 
     public function ActionCell(action:Object) {
         this.action = action;

@@ -30,7 +30,7 @@ public class TextInputField extends Sprite
         addChild(this.nameText_);
         this.inputText_ = new SimpleText(inputWidth,0xcccccc,true,width,height);
         this.inputText_.setBold(true);
-        this.inputText_.y = 1;
+        this.inputText_.y = 2;
         this.inputText_.x = 6;
         this.inputText_.border = false;
         this.inputText_.displayAsPassword = isPassword;

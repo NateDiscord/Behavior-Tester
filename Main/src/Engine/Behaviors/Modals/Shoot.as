@@ -1,9 +1,14 @@
 package Engine.Behaviors.Modals {
 public class Shoot {
+    public var shots:int = 0;
+    public var arc:Number = 0;
     public var projectileIndex:int = 0;
-    public var angle:int = 0;
-    public var coolDown:int = 0;
-    public var coolDownOffset:int = 0;
-    public var msOffset:int = 0;
+    public var coolDown:Number = 0;
+    public var coolDownOffset:Number = 0;
+    public var fixedAngle:Number = 0;
+    public var predictive:int = 0;
+
+    /* solely for display purposes. */
+    public var msOffset:Number = 0;
 }
 }

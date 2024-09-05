@@ -17,7 +17,7 @@ public class Interface extends Sprite {
         this.credits = new Credits();
         this.credits.alpha = 0.5;
         addChild(this.credits);
-        
+
         this.editorPanel = new EditorPanel(this);
         addChild(this.editorPanel);
 
