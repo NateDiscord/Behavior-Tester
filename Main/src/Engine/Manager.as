@@ -18,17 +18,16 @@ import flash.geom.Point;
 import flash.utils.getTimer;
 
 public class Manager extends Sprite {
-
     private var map:Map;
     public var camera:Camera;
     public var gui:Interface;
     public var tileMap:TileMap;
-
     private var tileLayer:Sprite;
-
     public var behavior:BehaviorDb;
     private var cycleLogic:CycleLogic;
-    private var lastUpdateTime:int;
+    private var lastUpdateTime:Number;
+    public var time:Number = 0;
+    public var deltaTime:Number = 0;
 
     public function Manager(behaviorData:BehaviorDb) {
         this.behavior = behaviorData;
@@ -92,15 +91,17 @@ public class Manager extends Sprite {
     }
 
     private function onEnterFrame(event:Event):void {
-        var currentTime:int = getTimer();
+        var currentTime:Number = getTimer();
+        this.deltaTime = (currentTime - this.time) / 1000;
+        this.time = currentTime;
         for (var i:int = this.map.numChildren - 1; i >= 0; i--) {
             var child:BasicObject = this.map.getChildAt(i) as BasicObject;
             if (child)
                 child.update(currentTime);
         }
 	
-        this.cycleLogic.setLastUpdateTime(currentTime);
-        this.cycleLogic.updateCooldownsAndShoot();
+        this.cycleLogic.setLastUpdateTime(this.time);
+        this.cycleLogic.updateCooldownsAndShoot(this.deltaTime);
         this.lastUpdateTime = currentTime;
     }
 }

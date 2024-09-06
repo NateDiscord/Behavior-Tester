@@ -14,7 +14,7 @@ public class CycleLogic {
     private var behavior:BehaviorDb;
     private var host:Entity;
     private var currentState:int;
-    private var lastUpdateTime:int;
+    private var lastUpdateTime:Number;
 
     public function CycleLogic(map:Map, behavior:BehaviorDb, currentState:int) {
         this.map = map;
@@ -24,21 +24,28 @@ public class CycleLogic {
         this.lastUpdateTime = 0;
     }
 
-    public function updateCooldownsAndShoot():void {
+    public function updateCooldownsAndShoot(deltaTime:Number):void {
         var currentStateActions:Array = this.behavior.statesList_[this.currentState].actions_;
         var j:int = 0;
+
         for each (var shootAction:Shoot in currentStateActions) {
             var batch:Vector.<Projectile>;
-            var elapsedTime:int = getTimer() - shootAction.coolDownOffset;
-            if (elapsedTime >= shootAction.coolDown) {
+            shootAction.coolDownOffset += deltaTime *  1000;
+            if (shootAction.coolDownOffset >= shootAction.coolDown) {
                 batch = new Vector.<Projectile>();
                 for (var i:int = 0; i < shootAction.shots; i++) {
                     var angle:Number = shootAction.fixedAngle + (shootAction.arc * i);
-                    var projectile:Projectile = new Projectile(this.map, this.host, this.host.projectiles_[shootAction.projectileIndex], angle * (Math.PI / 180), this.lastUpdateTime);
+                    var projectile:Projectile = new Projectile(
+                            this.map,
+                            this.host,
+                            this.host.projectiles_[shootAction.projectileIndex],
+                            angle * (Math.PI / 180),
+                            this.lastUpdateTime
+                    );
                     batch.push(projectile);
                     this.map.addObj(projectile);
                 }
-                shootAction.coolDownOffset = getTimer();
+                shootAction.coolDownOffset = 0;
             }
             batch = null;
             j++;

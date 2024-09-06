@@ -1,6 +1,5 @@
 package Engine {
 import Display.Assets.Objects.BasicObject;
-import Display.Assets.Objects.BasicObject;
 
 import Engine.File.Parameters;
 
