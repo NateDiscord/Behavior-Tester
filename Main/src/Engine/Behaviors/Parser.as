@@ -11,7 +11,7 @@ public class Parser {
         // Regex patterns for parsing
         var entityPattern:RegExp = /\[entity="([^"]+)"\]/;
         var statePattern:RegExp = /\[state="([^"]+)"\]\s*\{([^}]*)\}/g;
-        var actionPattern:RegExp = /\[action="(\w+)"(?:,\s*(\w+)="([^"]+)")?(?:,\s*(\w+)="([^"]+)")?(?:,\s*(\w+)="([^"]+)")?\]/g;
+        var actionPattern:RegExp = /\[action="(\w+)"(?:,\s*(\w+)="([^"]+)")?(?:,\s*(\w+)="([^"]+)")?(?:,\s*(\w+)="([^"]+)")?(?:,\s*(\w+)="([^"]+)")?(?:,\s*(\w+)="([^"]+)")?\]/g;
 
         // Extract entity
         var entityMatch:Array = entityPattern.exec(content);
@@ -35,25 +35,31 @@ public class Parser {
             // Extract actions for this state
             var actions:Array = [];
             var actionMatch:Array;
+
             while ((actionMatch = actionPattern.exec(actionsContent)) != null) {
                 var actionType:String = actionMatch[1];
                 var attributes:Object = {};
 
-                // Collect attributes
-                if (actionMatch[2]) attributes[actionMatch[2]] = actionMatch[3];
-                if (actionMatch[4]) attributes[actionMatch[4]] = actionMatch[5];
-                if (actionMatch[6]) attributes[actionMatch[6]] = actionMatch[7];
+                // Collect attributes using a loop
+                for (var i:int = 2; i < actionMatch.length; i += 2) {
+                    if (actionMatch[i] && actionMatch[i + 1]) {
+                        attributes[actionMatch[i]] = actionMatch[i + 1];
+                    }
+                }
 
                 // Use a switch statement to handle different action types
-                var action:Shoot; // Assume Action is a base class for different actions
+                var action:Shoot;
                 switch (actionType) {
                     case "shoot":
                         var shoot:Shoot = new Shoot();
-                        if ("projectileIndex" in attributes) {
-                            shoot.projectileIndex = parseInt(attributes["projectileIndex"]);
+                        if ("shots" in attributes) {
+                            shoot.shots = parseInt(attributes["shots"]);
                         }
                         if ("angle" in attributes) {
-                            shoot.angle = parseInt(attributes["angle"]);
+                            shoot.arc = parseInt(attributes["angle"]);
+                        }
+                        if ("projectileIndex" in attributes) {
+                            shoot.projectileIndex = parseInt(attributes["projectileIndex"]);
                         }
                         if ("coolDown" in attributes) {
                             shoot.coolDown = parseInt(attributes["coolDown"]);
@@ -61,6 +67,12 @@ public class Parser {
                         if ("coolDownOffset" in attributes) {
                             shoot.coolDownOffset = parseInt(attributes["coolDownOffset"]);
                             shoot.msOffset = shoot.coolDownOffset;
+                        }
+                        if ("fixedAngle" in attributes) {
+                            shoot.fixedAngle = parseInt(attributes["fixedAngle"]);
+                        }
+                        if ("predictive" in attributes) {
+                            shoot.predictive = parseInt(attributes["predictive"]);
                         }
                         action = shoot;
                         break;

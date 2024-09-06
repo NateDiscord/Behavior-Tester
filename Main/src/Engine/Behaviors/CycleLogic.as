@@ -26,14 +26,22 @@ public class CycleLogic {
 
     public function updateCooldownsAndShoot():void {
         var currentStateActions:Array = this.behavior.statesList_[this.currentState].actions_;
-        for each (var projectile:Shoot in currentStateActions) {
-            var elapsedTime:int = getTimer() - projectile.coolDownOffset;
-            if (elapsedTime >= projectile.coolDown) {
-                var proj:Projectile = new Projectile(this.map, this.host, this.host.projectiles_[projectile.projectileIndex], projectile.angle * (Math.PI / 180), this.lastUpdateTime);
-                this.map.addChild(proj);
-                // Update the last time this action was performed
-                projectile.coolDownOffset = getTimer();
+        var j:int = 0;
+        for each (var shootAction:Shoot in currentStateActions) {
+            var batch:Vector.<Projectile>;
+            var elapsedTime:int = getTimer() - shootAction.coolDownOffset;
+            if (elapsedTime >= shootAction.coolDown) {
+                batch = new Vector.<Projectile>();
+                for (var i:int = 0; i < shootAction.shots; i++) {
+                    var angle:Number = shootAction.fixedAngle + (shootAction.arc * i);
+                    var projectile:Projectile = new Projectile(this.map, this.host, this.host.projectiles_[shootAction.projectileIndex], angle * (Math.PI / 180), this.lastUpdateTime);
+                    batch.push(projectile);
+                    this.map.addObj(projectile);
+                }
+                shootAction.coolDownOffset = getTimer();
             }
+            batch = null;
+            j++;
         }
     }
 

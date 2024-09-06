@@ -1,33 +1,65 @@
 package Engine {
 import Display.Assets.Objects.BasicObject;
+import Display.Assets.Objects.BasicObject;
+
+import Engine.File.Parameters;
 
 import flash.display.Sprite;
+import flash.geom.Point;
 
 public class TileMap extends Sprite {
+
     private var tiles:Array;
-    private var tileSize:int;
-    private var mapWidth:int;
-    private var mapHeight:int;
     private var map:Map;
 
-    public function TileMap(map:Map, mapWidth:int, mapHeight:int, tileSize:int, objType:int) {
+    public var mapWidth:int;
+    public var mapHeight:int;
+
+    public static const TILE_SIZE:int = 40;
+
+    public function TileMap(map:Map, objType:int) {
         this.map = map;
-        this.mapWidth = mapWidth;
-        this.mapHeight = mapHeight;
-        this.tileSize = tileSize;
+        this.mapWidth = Parameters.data_["tileMapWidth"];
+        this.mapHeight = Parameters.data_["tileMapHeight"];
 
         tiles = new Array(mapWidth * mapHeight);
         for (var y:int = 0; y < mapHeight; y++) {
             for (var x:int = 0; x < mapWidth; x++) {
                 var basicObject:BasicObject = new BasicObject(map, objType);
                 setTile(x, y, objType);
-                basicObject.x = x * tileSize + tileSize / 2;
-                basicObject.y = y * tileSize + tileSize / 2;
-                basicObject.size = tileSize;
+                basicObject.x = x * TILE_SIZE + TILE_SIZE / 2;
+                basicObject.y = y * TILE_SIZE + TILE_SIZE / 2;
+                basicObject.size = TILE_SIZE;
                 tiles[y * mapWidth + x] = basicObject;
                 map.addObj(basicObject);
             }
         }
+    }
+
+    public function getCoords(x:Number, y:Number):Point
+    {
+        var inputX:Number = x * TILE_SIZE;
+        var inputY:Number = y * TILE_SIZE;
+        var maxX:Number = this.mapWidth * TILE_SIZE;
+        var maxY:Number = this.mapHeight * TILE_SIZE;
+        return new Point(inputX > maxX ? maxX : inputX,
+                         inputY > maxY ? maxY : inputY);
+    }
+
+    public function centerCamera(x:Number, y:Number, xOffset:int = 0, yOffset:int = 0):Point
+    {
+
+        var tX:Number = x * (this.mapWidth * TILE_SIZE);
+        var tY:Number = y * (this.mapHeight * TILE_SIZE);
+        return new Point(tX - (Main.STAGE.stageWidth / 2) + xOffset, tY - (Main.STAGE.stageHeight / 2) + yOffset);
+    }
+
+    public function setCoordsCenter(bo:BasicObject, x:Number, y:Number):void
+    {
+        var tX:Number = x * (this.mapWidth * TILE_SIZE);
+        var tY:Number = y * (this.mapHeight * TILE_SIZE);
+        bo.x = tX;
+        bo.y = tY;
     }
 
     public function setTile(x:int, y:int, objectType:int):void {

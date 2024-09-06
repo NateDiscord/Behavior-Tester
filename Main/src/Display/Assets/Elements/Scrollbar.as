@@ -2,6 +2,8 @@ package Display.Assets.Elements
 {
 import Display.Util.GraphicsUtil;
 
+import Engine.File.Parameters;
+
 import flash.display.Graphics;
    import flash.display.GraphicsPath;
    import flash.display.GraphicsSolidFill;
@@ -188,6 +190,7 @@ import flash.display.Graphics;
          stage.addEventListener(MouseEvent.MOUSE_UP,this.onStopIndicatorDrag);
          stage.addEventListener(MouseEvent.MOUSE_MOVE,this.onDragMove);
          this.sendPos();
+         Parameters.data_["scrolling"] = true;
       }
       
       private function onStopIndicatorDrag(event:MouseEvent) : void
@@ -196,6 +199,7 @@ import flash.display.Graphics;
          stage.removeEventListener(MouseEvent.MOUSE_MOVE,this.onDragMove);
          this.posIndicator_.stopDrag();
          this.sendPos();
+         Parameters.data_["scrolling"] = false;
       }
       
       private function onDragMove(event:MouseEvent) : void
