@@ -13,7 +13,7 @@ public class StateCell extends Sprite {
     private var nameText:SimpleText;
     private var background:Sprite;
 
-    private var index:int;
+    public var index:int;
     private var expanded:Boolean;
 
     private var host:EditorPanel;
@@ -56,7 +56,7 @@ public class StateCell extends Sprite {
     private function removeExistingActionCells():void {
         for (var i:int = numChildren - 1; i >= 0; i--) {
             var child:Object = getChildAt(i);
-            if (child is ActionCell || child is ShootCell) {
+            if (child is BehaviorCell || child is ShootCell) {
                 removeChildAt(i);
             }
         }
@@ -71,9 +71,9 @@ public class StateCell extends Sprite {
             var action:Object = actions[i];
             var cell:*;
             if (action is Shoot)
-                cell = new ShootCell(action as Shoot);
+                cell = new ShootCell(i, this);
             else
-                cell = new ActionCell(action);
+                cell = new BehaviorCell(i, this);
             cell.y = yPos;
             addChild(cell);
 

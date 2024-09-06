@@ -1,5 +1,5 @@
 package Engine.Behaviors.Modals {
-public class Shoot {
+public class Shoot extends Behavior {
     public var shots:int = 0;
     public var arc:Number = 0;
     public var projectileIndex:int = 0;

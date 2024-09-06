@@ -84,8 +84,6 @@ public class Manager extends Sprite {
 
     private function onResize(e:Event):void
     {
-        Main.windowWidth = stage.stageWidth;
-        Main.windowHeight = stage.stageHeight;
         this.camera.adjustPosition();
         this.gui.onResize();
     }

@@ -26,8 +26,8 @@ public class Interface extends Sprite {
 
     public function onResize():void {
         this.editorPanel.resize();
-        this.credits.x = Main.windowWidth - this.credits.width - 2;
-        this.credits.y = Main.windowHeight - this.credits.height - 2;
+        this.credits.x = Main.STAGE.stageWidth - this.credits.width - 2;
+        this.credits.y = Main.STAGE.stageHeight - this.credits.height - 2;
     }
 }
 }

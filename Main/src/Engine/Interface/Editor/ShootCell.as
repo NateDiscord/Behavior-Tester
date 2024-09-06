@@ -2,25 +2,28 @@ package Engine.Interface.Editor {
 import Display.Text.SimpleText;
 import Display.Util.TextUtil;
 
+import Engine.Behaviors.Modals.Behavior;
+
 import Engine.Behaviors.Modals.Shoot;
 
 import flash.display.Sprite;
 
 
-public class ShootCell extends Sprite {
+public class ShootCell extends BehaviorCell {
 
     private var action:Shoot;
     public var actionText:SimpleText;
     private var parameters:Vector.<Sprite>;
 
-    public static var PARAMETERS:Array;
-    public static var DISPLAY_NAMES:Array = ["Shots", "Arc Gap", "Angle", "Proj. Index", "Cooldown", "Cooldown Offset", "Predictive"];
-    public static var CHECK:Array = [false, false, false, false, false, false, true];
+    public var CHECK:Array;
 
-    public function ShootCell(action:Shoot) {
-        this.action = action;
-        if (!this.action is Shoot)
+    public function ShootCell(index:int, host:StateCell) {
+        super(index, host);
+        var action:Shoot = Main.CURRENT_BEHAVIOR.statesList_[host.index].actions_[index];
+        if (!action is Shoot)
             return;
+
+        this.action = action as Shoot;
 
         drawBackground();
         addHeader();
@@ -37,14 +40,15 @@ public class ShootCell extends Sprite {
 
     private function addParams():void
     {
-        PARAMETERS = [this.action.shots, this.action.arc, this.action.fixedAngle, this.action.projectileIndex,  this.action.coolDown, this.action.msOffset, this.action.predictive];
+        PARAMETERS = ["shots", "arc", "fixedAngle", "projectileIndex", "coolDown", "coolDownOffset", "predictive"];
+        CHECK = [false, false, false, false, false, false, true];
         this.parameters = new Vector.<Sprite>();
         for (var i:int = 0; i < PARAMETERS.length; i++)
         {
             if (CHECK[i])
-                this.parameters[i] = new CellCheck(PARAMETERS[i], DISPLAY_NAMES[i]);
+                this.parameters[i] = new CellCheck(i, this);
             else
-                this.parameters[i] = new CellParameter(PARAMETERS[i], DISPLAY_NAMES[i]);
+                this.parameters[i] = new CellParameter(this, i);
             addChild(this.parameters[i]);
             this.parameters.push(this.parameters[i]);
         }

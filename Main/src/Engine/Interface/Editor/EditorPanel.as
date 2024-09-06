@@ -54,8 +54,8 @@ public class EditorPanel extends Sprite {
         this.host = host;
 
         this.offset = new Point();
-        this.x = Math.max(5, Math.min(this.x, Main.windowWidth - this.width - 5));
-        this.y = Math.max(5, Math.min(this.y, Main.windowHeight - this.height - 5));
+        this.x = Math.max(5, Math.min(this.x, Main.STAGE.stageWidth - this.width - 5));
+        this.y = Math.max(5, Math.min(this.y, Main.STAGE.stageHeight - this.height - 5));
 
         this.addGraphics();
         this.addHeader();
@@ -197,8 +197,8 @@ public class EditorPanel extends Sprite {
         this.scaleX = this.scaleY = scale > 1 ? 1 : scale;
         if (!this.hasBeenMoved)
             this.y = (Main.STAGE.stageHeight - this.height) / 2;
-        this.x = Math.max(5, Math.min(this.x, Main.windowWidth - this.width - 5));
-        this.y = Math.max(5, Math.min(this.y, Main.windowHeight - this.height - 5));
+        this.x = Math.max(5, Math.min(this.x, Main.STAGE.stageWidth - this.width - 5));
+        this.y = Math.max(5, Math.min(this.y, Main.STAGE.stageHeight - this.height - 5));
     }
 
     private function enableDragging():void {
@@ -218,8 +218,8 @@ public class EditorPanel extends Sprite {
         this.x = event.stageX - this.offset.x;
         this.y = event.stageY - this.offset.y;
 
-        this.x = Math.max(5, Math.min(this.x, Main.windowWidth - this.width - 5));
-        this.y = Math.max(5, Math.min(this.y, Main.windowHeight - this.height - 5));
+        this.x = Math.max(5, Math.min(this.x, Main.STAGE.stageWidth - this.width - 5));
+        this.y = Math.max(5, Math.min(this.y, Main.STAGE.stageHeight - this.height - 5));
         event.updateAfterEvent();
 
         if (!hasBeenMoved)

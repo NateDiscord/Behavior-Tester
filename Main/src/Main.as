@@ -14,18 +14,16 @@ import Engine.Manager;
 
 import flash.display.Sprite;
 import flash.display.Stage;
+import flash.display.StageAlign;
 import flash.display.StageScaleMode;
 import flash.events.Event;
 
 [SWF(frameRate="60",backgroundColor="#000000",width="1280",height="720")]
 public class Main extends Sprite {
 
-    public static var STAGE:Stage;
-    public static var windowWidth:int = 1280;
-    public static var windowHeight:int = 720;
-
     public var manager:Manager;
 
+    public static var STAGE:Stage;
     public static var CURRENT_ENTITY:Entity;
     public static var CURRENT_BEHAVIOR:BehaviorDb;
 
@@ -62,8 +60,8 @@ public class Main extends Sprite {
     {
         new AssetLoader().load();
         Parameters.load();
-        stage.align = "TL";
-        stage.scaleMode = "noScale";
+        stage.align = StageAlign.TOP_LEFT;
+        stage.scaleMode = StageScaleMode.NO_SCALE;
         STAGE = stage;
     }
 }

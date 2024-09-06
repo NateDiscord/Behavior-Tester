@@ -47,7 +47,6 @@ public class TileMap extends Sprite {
 
     public function centerCamera(x:Number, y:Number, xOffset:int = 0, yOffset:int = 0):Point
     {
-
         var tX:Number = x * (this.mapWidth * TILE_SIZE);
         var tY:Number = y * (this.mapHeight * TILE_SIZE);
         return new Point(tX - (Main.STAGE.stageWidth / 2) + xOffset, tY - (Main.STAGE.stageHeight / 2) + yOffset);
