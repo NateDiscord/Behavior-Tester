@@ -403,9 +403,3 @@ FodyWeavers.xsd
 # JetBrains Rider
 *.sln.iml
 Realm-Client/Realm-Client.iml
-Main/config.xml
-Main/Main.iml
-Main/WebMain.iml
-Main/Main.iml
-Main/config.xml
-Main/config.xml
