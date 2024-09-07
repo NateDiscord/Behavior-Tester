@@ -100,8 +100,7 @@ public class Manager extends Sprite {
                 child.update(currentTime);
         }
 	
-        this.cycleLogic.setLastUpdateTime(this.time);
-        this.cycleLogic.updateCooldownsAndShoot(this.deltaTime);
+        this.cycleLogic.update(this.time);
         this.lastUpdateTime = currentTime;
     }
 }
