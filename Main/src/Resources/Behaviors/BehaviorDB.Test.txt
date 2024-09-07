@@ -2,8 +2,9 @@
  {
  	[state="First"]
  	{
- 		[action="shoot", shots="4", angle="90", projectileIndex="1", fixedAngle="45", coolDown="1500"],
- 		[action="shoot", shots="4", angle="90", coolDown="1500", coolDownOffset="1000"],
+ 		[action="shoot", projectileIndex="1", shots="4", angle="90", fixedAngle="45", coolDown="1500"],
+ 		[action="shoot", projectileIndex="0", shots="4", angle="90", coolDown="1500", coolDownOffset="750"],
+ 		[action="wander", speed="0.5"]
  	},
  	[state="Second"]
  	{

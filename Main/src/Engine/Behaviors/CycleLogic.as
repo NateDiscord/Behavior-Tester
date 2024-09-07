@@ -4,9 +4,11 @@ import Display.Control.ObjectLibrary;
 
 import Engine.Behaviors.Actions.Action;
 import Engine.Behaviors.Actions.ShootAction;
+import Engine.Behaviors.Actions.WanderAction;
 
 import Engine.Behaviors.Modals.BehaviorDb;
 import Engine.Behaviors.Modals.Shoot;
+import Engine.Behaviors.Modals.Wander;
 import Engine.Map;
 
 import Modules.Projectile;
@@ -28,9 +30,15 @@ public class CycleLogic {
         this.lastUpdateTime = 0;
         this.actionListGo = [];
         var currentStateActions:Array = this.behavior.statesList_[this.currentState].actions_;
-        for each (var shootAction:Shoot in currentStateActions)
+        for each (var action:Object in currentStateActions)
         {
-            this.actionListGo.push(new ShootAction(this.host, shootAction));
+            var actionType:String = action.action;
+            if (actionType)
+            {
+                var actionClass:Class = ActionLibrary.ACTION_MAP[actionType];
+                var actionInstance:Object = new actionClass(this.host, action);
+                this.actionListGo.push(actionInstance);
+            }
         }
     }
 

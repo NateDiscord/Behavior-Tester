@@ -2,6 +2,8 @@ package {
 import Display.Assets.AssetLoader;
 import Display.Assets.Objects.Entity;
 
+import Engine.Behaviors.ActionLibrary;
+
 import Engine.Behaviors.Modals.BehaviorDb;
 import Engine.Behaviors.Modals.Shoot;
 import Engine.Behaviors.Modals.State;
@@ -36,6 +38,7 @@ public class Main extends Sprite {
             setup();
         else
             addEventListener("addedToStage",this.onAddedToStage);
+
         new FileReader(onFileLoaded, "Resources/Behaviors/BehaviorDB.Test.txt");
     }
 

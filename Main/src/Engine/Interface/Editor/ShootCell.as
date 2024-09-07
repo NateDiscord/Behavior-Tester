@@ -37,7 +37,7 @@ public class ShootCell extends Sprite {
 
     private function addParams():void
     {
-        PARAMETERS = [this.action.shots, this.action.arc, this.action.fixedAngle, this.action.projectileIndex,  this.action.coolDown, this.action.msOffset, this.action.predictive];
+        PARAMETERS = [this.action.shots, this.action.angle, this.action.fixedAngle, this.action.projectileIndex,  this.action.coolDown, this.action.msOffset, this.action.predictive];
         this.parameters = new Vector.<Sprite>();
         for (var i:int = 0; i < PARAMETERS.length; i++)
         {

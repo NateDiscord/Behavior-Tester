@@ -46,42 +46,7 @@ public class Parser {
                         attributes[actionMatch[i]] = actionMatch[i + 1];
                     }
                 }
-
-                // Use a switch statement to handle different action types
-                var action:Shoot;
-                switch (actionType) {
-                    case "shoot":
-                        var shoot:Shoot = new Shoot();
-                        if ("shots" in attributes) {
-                            shoot.shots = parseInt(attributes["shots"]);
-                        }
-                        if ("angle" in attributes) {
-                            shoot.arc = parseInt(attributes["angle"]);
-                        }
-                        if ("projectileIndex" in attributes) {
-                            shoot.projectileIndex = parseInt(attributes["projectileIndex"]);
-                        }
-                        if ("coolDown" in attributes) {
-                            shoot.coolDown = parseInt(attributes["coolDown"]);
-                        }
-                        if ("coolDownOffset" in attributes) {
-                            shoot.coolDownOffset = parseInt(attributes["coolDownOffset"]);
-                            shoot.msOffset = shoot.coolDownOffset;
-                        }
-                        if ("fixedAngle" in attributes) {
-                            shoot.fixedAngle = parseInt(attributes["fixedAngle"]);
-                        }
-                        if ("predictive" in attributes) {
-                            shoot.predictive = parseInt(attributes["predictive"]);
-                        }
-                        action = shoot;
-                        break;
-                        // Add additional cases for other action types
-                    default:
-                        throw new Error("Unknown action type: " + actionType);
-                }
-
-                actions.push(action);
+                actions.push(ActionLibrary.Create(actionType, attributes));
             }
 
             state.actions_ = actions;
