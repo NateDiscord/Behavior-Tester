@@ -50,12 +50,12 @@ public class Editor extends Sprite {
     private var editorBounds:Sprite;
     private var editorMask:Sprite;
 
-    private var host:Interface;
+    public var interface_:Interface;
     private var offset:Point;
     public var hasBeenMoved:Boolean = false;
 
     public function Editor(host:Interface) {
-        this.host = host;
+        this.interface_ = host;
 
         this.offset = new Point();
         this.x = Math.max(5, Math.min(this.x, Main.STAGE.stageWidth - this.width - 5));

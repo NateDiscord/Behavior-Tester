@@ -9,12 +9,12 @@ public class BehaviorCell extends Sprite {
     public var PARAMETERS:Array;
 
     public var index:int;
-    public var host:StateCell;
+    public var stateCell:StateCell;
     public var behavior:Behavior;
 
     public function BehaviorCell(index:int, host:StateCell, behavior:Behavior) {
         this.index = index;
-        this.host = host;
+        this.stateCell = host;
         this.behavior = behavior;
     }
 }

@@ -1,82 +1,118 @@
 package Engine {
 import Display.Assets.Objects.BasicObject;
+import Display.Assets.Objects.Entity;
+import flash.utils.Dictionary;
+import flash.events.Event;
 
-import Engine.File.Parameters;
+public class TileMap extends Map {
 
-import flash.display.Sprite;
-import flash.geom.Point;
+    private var tiles:Object;
+    private var updateQueue:Array;
+    private var processingQueue:Boolean;
+    private var manager:Manager;
+    private var objType:int;
 
-public class TileMap extends Sprite {
-
-    private var tiles:Array;
+    private var camera:Camera;
     private var map:Map;
 
-    public var mapWidth:int;
-    public var mapHeight:int;
+    private var radius:int = 15;
 
-    public function TileMap(map:Map, objType:int) {
+    public function TileMap(manager:Manager, objType:int) {
+        this.manager = manager;
+        this.objType = objType;
+        tiles = {};
+        updateQueue = [];
+        processingQueue = false;
+    }
+
+    public function onCameraSetup(camera:Camera, map:Map):void {
+        this.camera = camera;
         this.map = map;
-        this.mapWidth = Parameters.data_["tileMapWidth"];
-        this.mapHeight = Parameters.data_["tileMapHeight"];
+        updateTilesBasedOnCamera(camera.position.x, camera.position.y);
+    }
 
-        tiles = new Array(mapWidth * mapHeight);
-        for (var y:int = 0; y < mapHeight; y++) {
-            for (var x:int = 0; x < mapWidth; x++) {
-                var basicObject:BasicObject = new BasicObject(map, objType);
-                setTile(x, y, objType);
-                basicObject.x = x * Main.TILE_SIZE + Main.TILE_SIZE / 2;
-                basicObject.y = y * Main.TILE_SIZE + Main.TILE_SIZE / 2;
+    public function updateTilesBasedOnCamera(cameraX:Number, cameraY:Number):void {
+        var tileX:int = Math.floor(cameraX / Main.TILE_SIZE);
+        var tileY:int = Math.floor(cameraY / Main.TILE_SIZE);
+        queueTileUpdates(tileX, tileY);
+        if (!processingQueue) {
+            processingQueue = true;
+            processTileQueue();
+        }
+        removeOutOfBoundsTiles(tileX, tileY);
+    }
+
+    private function queueTileUpdates(centerX:int, centerY:int):void {
+        var startX:int = centerX - radius;
+        var startY:int = centerY - radius;
+        var endX:int = centerX + radius;
+        var endY:int = centerY + radius;
+        for (var y:int = startY; y <= endY; y++)
+            for (var x:int = startX; x <= endX; x++)
+                if (isWithinRadius(centerX, centerY, x, y))
+                    if (!tiles[x + "," + y])
+                        updateQueue.push({x: x, y: y});
+    }
+
+    private function processTileQueue():void {
+        var maxUpdates:int = int.MAX_VALUE;
+        var updatesProcessed:int = 0;
+        while (updateQueue.length > 0 && updatesProcessed < maxUpdates) {
+            var tileData:Object = updateQueue.shift();
+            var x:int = tileData.x;
+            var y:int = tileData.y;
+            var tileKey:String = x + "," + y;
+            if (!tiles[tileKey]) {
+                var basicObject:BasicObject = new BasicObject(this.map, this.objType);
+                basicObject.x = x * Main.TILE_SIZE;
+                basicObject.y = y * Main.TILE_SIZE;
                 basicObject.size = Main.TILE_SIZE;
-                tiles[y * mapWidth + x] = basicObject;
-                map.addObj(basicObject);
+                tiles[tileKey] = basicObject;
+                this.addObj(basicObject);
+            }
+            updatesProcessed++;
+        }
+        if (updateQueue.length > 0)
+            manager.addEventListener(Event.ENTER_FRAME, onEnterFrame);
+        else
+            processingQueue = false;
+    }
+
+    private function onEnterFrame(event:Event):void {
+        if (updateQueue.length == 0)
+            manager.removeEventListener(Event.ENTER_FRAME, onEnterFrame);
+        processTileQueue();
+    }
+
+    public function removeOutOfBoundsTiles(centerX:int, centerY:int):void {
+        var keysToRemove:Array = [];
+        for (var tileKey:String in tiles) {
+            var coords:Array = tileKey.split(",");
+            var tileX:int = int(coords[0]);
+            var tileY:int = int(coords[1]);
+
+            if (!isWithinRadius(centerX, centerY, tileX, tileY)) {
+                var tile:BasicObject = tiles[tileKey];
+                this.removeObj(tile);
+                keysToRemove.push(tileKey);
             }
         }
+        for each (var key:String in keysToRemove)
+            delete tiles[key];
     }
 
-    public function getCoords(x:Number, y:Number):Point
-    {
-        var inputX:Number = x * Main.TILE_SIZE;
-        var inputY:Number = y * Main.TILE_SIZE;
-        var maxX:Number = this.mapWidth * Main.TILE_SIZE;
-        var maxY:Number = this.mapHeight * Main.TILE_SIZE;
-        return new Point(inputX > maxX ? maxX : inputX,
-                         inputY > maxY ? maxY : inputY);
+    private function isWithinRadius(centerX:int, centerY:int, x:int, y:int):Boolean {
+        var dx:int = x - centerX;
+        var dy:int = y - centerY;
+        return (dx * dx + dy * dy) <= (this.radius * this.radius);
     }
 
-    public function centerCamera(x:Number, y:Number, xOffset:int = 0, yOffset:int = 0):Point
-    {
-        var tX:Number = x * (this.mapWidth * Main.TILE_SIZE);
-        var tY:Number = y * (this.mapHeight * Main.TILE_SIZE);
-        return new Point(tX - (Main.STAGE.stageWidth / 2) + xOffset, tY - (Main.STAGE.stageHeight / 2) + yOffset);
-    }
-
-    public function setCoordsCenter(bo:BasicObject, x:Number, y:Number):void
-    {
-        var tX:Number = x * (this.mapWidth * Main.TILE_SIZE);
-        var tY:Number = y * (this.mapHeight * Main.TILE_SIZE);
-        bo.x = tX;
-        bo.y = tY;
-    }
-
-    public function setTile(x:int, y:int, objectType:int):void {
-        if (x >= 0 && x < mapWidth && y >= 0 && y < mapHeight) {
-            var index:int = y * mapWidth + x;
-            var basicObject:BasicObject = tiles[index];
-            if (basicObject) {
-                basicObject.objectType = objectType;
-                basicObject.redrawBitmap();
-            }
-        }
-    }
-
-    public function clear():void {
-        for each (var basicObject:BasicObject in tiles) {
-            if (basicObject) {
-                removeChild(basicObject);
-                basicObject.map.removeObj(basicObject); // If map manages objects
-            }
-        }
-        tiles = new Array(mapWidth * mapHeight); // Reset the array
+    public function isEntityWithinTilemap(entity:BasicObject):Boolean {
+        var tileX:int = Math.floor(entity.x / Main.TILE_SIZE);
+        var tileY:int = Math.floor(entity.y / Main.TILE_SIZE);
+        var centerX:int = Math.floor(camera.position.x / Main.TILE_SIZE);
+        var centerY:int = Math.floor(camera.position.y / Main.TILE_SIZE);
+        return isWithinRadius(centerX, centerY, tileX, tileY);
     }
 }
 }

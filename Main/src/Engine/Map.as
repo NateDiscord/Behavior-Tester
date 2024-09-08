@@ -13,7 +13,7 @@ public class Map extends Sprite {
         addChild(obj);
     }
 
-    public  function removeObj(obj:BasicObject) : void {
+    public function removeObj(obj:BasicObject) : void {
         removeChild(obj);
     }
 
@@ -25,6 +25,19 @@ public class Map extends Sprite {
             }
         }
         return null;
+    }
+
+    public function updateEntityVisibility(tileMap:TileMap):void {
+        for (var i:int = 0; i < this.numChildren; i++) {
+            var child:Entity = this.getChildAt(i) as Entity;
+            if (child) {
+                if (tileMap.isEntityWithinTilemap(child)) {
+                    child.visible = true;
+                } else {
+                    child.visible = false;
+                }
+            }
+        }
     }
 }
 }

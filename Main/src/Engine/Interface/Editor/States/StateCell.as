@@ -23,15 +23,17 @@ public class StateCell extends Sprite {
     private var background:Sprite;
 
     public var index:int;
+    public var editor:Editor;
     private var expanded:Boolean;
-
-    private var host:Editor;
 
     public function StateCell(index:int, host:Editor) {
         this.index = index;
-        this.host = host;
+        this.editor = host;
         this.expanded = false;
+        addAssets();
+    }
 
+    private function addAssets():void {
         this.background = new Sprite();
         this.background.addEventListener(MouseEvent.CLICK, onClick);
         addChild(this.background);
@@ -60,7 +62,7 @@ public class StateCell extends Sprite {
             createActionCells();
         else
            this.expanded = false;
-        this.host.rePosition();
+        this.editor.rePosition();
     }
 
     private function removeExistingActionCells():void {

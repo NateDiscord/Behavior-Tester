@@ -12,7 +12,7 @@ import flash.events.Event;
 public class CellCheck extends Sprite {
 
     public var index:int;
-    public var host:BehaviorCell;
+    public var behaviorCell:BehaviorCell;
 
     private var nameText:SimpleText;
     private var checkField:CheckBoxField;
@@ -20,9 +20,9 @@ public class CellCheck extends Sprite {
     private var names:Array;
 
     public function CellCheck(host:BehaviorCell, index:int) {
-        this.host = host;
+        this.behaviorCell = host;
         this.index = index;
-        this.names = this.host.behavior.toString;
+        this.names = this.behaviorCell.behavior.toString;
         addAssets();
     }
 

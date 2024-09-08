@@ -21,11 +21,11 @@ public class ProjChooser extends Sprite {
     private var projectiles:Vector.<ProjectileProperties>;
     private var bitmaps:Vector.<Bitmap>;
 
-    private var host:BehaviorCell;
+    private var behaviorCell:BehaviorCell;
     private var container:Sprite;
 
     public function ProjChooser(host:BehaviorCell) {
-        this.host = host;
+        this.behaviorCell = host;
         addProjectiles();
         addBackground();
         addBitmaps();
@@ -61,7 +61,7 @@ public class ProjChooser extends Sprite {
     private function addBitmaps():void {
         this.bitmaps = new Vector.<Bitmap>();
         var behav:BehaviorDb = Parameters.data_["targetBehavior"];
-        var shoot:Shoot = behav.statesList_[this.host.host.index].actions_[this.host.index];
+        var shoot:Shoot = behav.statesList_[this.behaviorCell.stateCell.index].actions_[this.behaviorCell.index];
 
         for (var i:int = 0; i < this.projectiles.length; i++) {
             var objectType:int = ObjectLibrary.idToType_[this.projectiles[i].objectId_];
@@ -78,28 +78,30 @@ public class ProjChooser extends Sprite {
             s.x = 4 + 25 * i;
             s.y = 6;
             s.addChild(bitmap);
-            s.addEventListener(MouseEvent.CLICK, function(e:MouseEvent):void {
-                changeIndex(i);
-            });
+            s.addEventListener(MouseEvent.CLICK, onClick(i));
 
             this.bitmaps.push(bitmap);
             this.container.addChild(s);
         }
     }
 
+    private function onClick(value:int):Function {
+        return function(e:MouseEvent):void {
+            changeIndex(value);
+        }
+    }
 
     private function changeIndex(value:int):void {
-
         var behav:BehaviorDb = Parameters.data_["targetBehavior"];
-        var shoot:Shoot = behav.statesList_[this.host.host.index].actions_[this.host.index];
+        var shoot:Shoot = behav.statesList_[this.behaviorCell.stateCell.index].actions_[this.behaviorCell.index];
         if (shoot == null)
             return;
 
         shoot.projectileIndex = value;
-        behav.statesList_[this.host.host.index].actions_[this.host.index] = shoot;
+        behav.statesList_[this.behaviorCell.stateCell.index].actions_[this.behaviorCell.index] = shoot;
+        Main.MANAGER.refresh = true;
 
-        for (var i:int = 0; i < this.projectiles.length; i++)
-        {
+        for (var i:int = 0; i < this.projectiles.length; i++) {
             var filter:Array = i == value ? FilterUtil.getWhiteOutlineFilter() : FilterUtil.getTextOutlineFilter();
             this.bitmaps[i].filters = filter;
         }

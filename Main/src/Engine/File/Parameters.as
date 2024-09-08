@@ -31,6 +31,8 @@ public class Parameters
         }
         Parameters.data_["entities"] = null;
         Parameters.data_["scrolling"] = false;
+        Parameters.data_["tileMapWidth"] = 10;
+        Parameters.data_["tileMapHeight"] = 10;
         setDefaults();
         save();
     }

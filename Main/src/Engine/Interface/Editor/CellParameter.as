@@ -19,7 +19,7 @@ import flash.events.Event;
 
 public class CellParameter extends Sprite {
 
-    public var host:BehaviorCell;
+    public var behaviorCell:BehaviorCell;
     public var index:int;
 
     private var nameText:SimpleText;
@@ -28,9 +28,9 @@ public class CellParameter extends Sprite {
     private var names:Array;
 
     public function CellParameter(host:BehaviorCell, index:int) {
-        this.host = host;
+        this.behaviorCell = host;
         this.index = index;
-        this.names = this.host.behavior.toString;
+        this.names = this.behaviorCell.behavior.toString;
         addAssets();
     }
 
@@ -43,7 +43,7 @@ public class CellParameter extends Sprite {
 
         this.inputField = new TextInputField("", false, "", 40, 20, 12);
         this.inputField.x = this.nameText.x + this.nameText.width + 5;
-        this.inputField.setText(host.PARAMETERS[index]);
+        this.inputField.setText(behaviorCell.PARAMETERS[index]);
         this.inputField.addEventListener(Event.CHANGE, onInputFieldChange);
         addChild(this.inputField);
     }
@@ -58,9 +58,9 @@ public class CellParameter extends Sprite {
     private function handle(type:String, value:int):void
     {
         var behav:BehaviorDb = Parameters.data_["targetBehavior"];
-        if (this.host is ShootCell)
+        if (this.behaviorCell is ShootCell)
             {
-                var shoot:Shoot = behav.statesList_[this.host.host.index].actions_[this.host.index];
+                var shoot:Shoot = behav.statesList_[this.behaviorCell.stateCell.index].actions_[this.behaviorCell.index];
                 if (shoot == null)
                     return;
                 switch (type)
@@ -71,20 +71,17 @@ public class CellParameter extends Sprite {
                     case "predictive": shoot.predictive = value; break;
                     case "projectileIndex": shoot.projectileIndex = value; break;
                     case "coolDown": shoot.coolDown = value; break;
-                    case "coolDownOffset":
-                        shoot.coolDownOffset = value;
-                        shoot.msOffset = value;
-                        break;
+                    case "coolDownOffset": shoot.coolDownOffset = value; break;
                 }
-                behav.statesList_[this.host.host.index].actions_[this.host.index] = shoot;
+                behav.statesList_[this.behaviorCell.stateCell.index].actions_[this.behaviorCell.index] = shoot;
         }
-        if (this.host is WanderCell)
+        if (this.behaviorCell is WanderCell)
         {
-            var wander:Wander = behav.statesList_[this.host.host.index].actions_[this.host.index];
+            var wander:Wander = behav.statesList_[this.behaviorCell.stateCell.index].actions_[this.behaviorCell.index];
             if (wander == null)
                 return;
             wander.speed = value;
-            behav.statesList_[this.host.host.index].actions_[this.host.index] = wander;
+            behav.statesList_[this.behaviorCell.stateCell.index].actions_[this.behaviorCell.index] = wander;
         }
     }
 }

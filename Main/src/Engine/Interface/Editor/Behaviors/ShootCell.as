@@ -48,7 +48,7 @@ public class ShootCell extends BehaviorCell {
     private function setParams():void
     {
         CHECK = [0,0,0,0,0,2,1];
-        PARAMETERS = [this.shoot.shots, this.shoot.angle, this.shoot.fixedAngle, this.shoot.coolDown, this.shoot.msOffset, this.shoot.projectileIndex, this.shoot.predictive];
+        PARAMETERS = [this.shoot.shots, this.shoot.angle, this.shoot.fixedAngle, this.shoot.coolDown, this.shoot.coolDownOffset, this.shoot.projectileIndex, this.shoot.predictive];
     }
 
     private function addParams():void
