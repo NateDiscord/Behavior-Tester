@@ -42,6 +42,7 @@ public class ShootCell extends BehaviorCell {
     {
         PARAMETERS = ["shots", "arc", "fixedAngle", "projectileIndex", "coolDown", "coolDownOffset", "predictive"];
         CHECK = [false, false, false, false, false, false, true];
+        PARAMETERS = [this.action.shots, this.action.angle, this.action.fixedAngle, this.action.projectileIndex,  this.action.coolDown, this.action.msOffset, this.action.predictive];
         this.parameters = new Vector.<Sprite>();
         for (var i:int = 0; i < PARAMETERS.length; i++)
         {

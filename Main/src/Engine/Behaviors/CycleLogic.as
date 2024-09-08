@@ -2,8 +2,13 @@ package Engine.Behaviors {
 import Display.Assets.Objects.Entity;
 import Display.Control.ObjectLibrary;
 
+import Engine.Behaviors.Actions.Action;
+import Engine.Behaviors.Actions.ShootAction;
+import Engine.Behaviors.Actions.WanderAction;
+
 import Engine.Behaviors.Modals.BehaviorDb;
 import Engine.Behaviors.Modals.Shoot;
+import Engine.Behaviors.Modals.Wander;
 import Engine.Map;
 
 import Modules.Projectile;
@@ -15,6 +20,7 @@ public class CycleLogic {
     private var host:Entity;
     private var currentState:int;
     private var lastUpdateTime:Number;
+    private var actionListGo:Array;
 
     public function CycleLogic(map:Map, behavior:BehaviorDb, currentState:int) {
         this.map = map;
@@ -22,37 +28,24 @@ public class CycleLogic {
         this.host = this.map.findEntity(ObjectLibrary.idToType_[behavior.name_]);
         this.currentState = currentState;
         this.lastUpdateTime = 0;
-    }
-
-    public function updateCooldownsAndShoot(deltaTime:Number):void {
+        this.actionListGo = [];
         var currentStateActions:Array = this.behavior.statesList_[this.currentState].actions_;
-        var j:int = 0;
-
-        for each (var shootAction:Shoot in currentStateActions) {
-            var batch:Vector.<Projectile>;
-            shootAction.coolDownOffset += deltaTime *  1000;
-            if (shootAction.coolDownOffset >= shootAction.coolDown) {
-                batch = new Vector.<Projectile>();
-                for (var i:int = 0; i < shootAction.shots; i++) {
-                    var angle:Number = shootAction.fixedAngle + (shootAction.arc * i);
-                    var projectile:Projectile = new Projectile(
-                            this.map,
-                            this.host,
-                            this.host.projectiles_[shootAction.projectileIndex],
-                            angle * (Math.PI / 180),
-                            this.lastUpdateTime
-                    );
-                    batch.push(projectile);
-                    this.map.addObj(projectile);
-                }
-                shootAction.coolDownOffset = 0;
+        for each (var action:Object in currentStateActions)
+        {
+            var actionType:String = action.action;
+            if (actionType)
+            {
+                var actionClass:Class = ActionLibrary.ACTION_MAP[actionType];
+                var actionInstance:Object = new actionClass(this.host, action);
+                this.actionListGo.push(actionInstance);
             }
-            batch = null;
-            j++;
         }
     }
 
-    public function setLastUpdateTime(time:int):void {
+    public function update(time:Number):void {
+        for each (var action:Action in this.actionListGo) {
+            action.update();
+        }
         this.lastUpdateTime = time;
     }
 }
