@@ -19,11 +19,10 @@ public class CellCheck extends Sprite {
 
     private var names:Array;
 
-    public function CellCheck(index:int, host:BehaviorCell) {
+    public function CellCheck(host:BehaviorCell, index:int) {
         this.host = host;
         this.index = index;
         this.names = this.host.behavior.toString;
-
         addAssets();
     }
 
@@ -31,7 +30,7 @@ public class CellCheck extends Sprite {
     {
         var name:String = this.names[this.index];
         this.nameText = new SimpleText(12, 0xaaaaaa, false);
-        TextUtil.handleText(this.nameText, name, this);
+        TextUtil.handleText(this.nameText, name + ":", this);
 
         this.checkField = new CheckBoxField(false);
         this.checkField.scaleX = this.checkField.scaleY = 0.6;

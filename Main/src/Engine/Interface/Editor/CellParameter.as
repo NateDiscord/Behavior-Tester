@@ -8,9 +8,11 @@ import Engine.Behaviors.Modals.Behavior;
 import Engine.Behaviors.Modals.BehaviorDb;
 
 import Engine.Behaviors.Modals.Shoot;
+import Engine.Behaviors.Modals.Wander;
 import Engine.File.Parameters;
 import Engine.Interface.Editor.Behaviors.BehaviorCell;
 import Engine.Interface.Editor.Behaviors.ShootCell;
+import Engine.Interface.Editor.Behaviors.WanderCell;
 
 import flash.display.Sprite;
 import flash.events.Event;
@@ -37,7 +39,7 @@ public class CellParameter extends Sprite {
         var name:String = this.names[this.index];
         this.nameText = new SimpleText(12, 0xaaaaaa, false);
         this.nameText.y = 2;
-        TextUtil.handleText(this.nameText, name, this);
+        TextUtil.handleText(this.nameText, name + ":", this);
 
         this.inputField = new TextInputField("", false, "", 40, 20, 12);
         this.inputField.x = this.nameText.x + this.nameText.width + 5;
@@ -57,24 +59,33 @@ public class CellParameter extends Sprite {
     {
         var behav:BehaviorDb = Parameters.data_["targetBehavior"];
         if (this.host is ShootCell)
-        {
-            var shoot:Shoot = behav.statesList_[host.host.index].actions_[host.index];
-            switch (type)
             {
-                case "shots": shoot.shots = value; break;
-                case "angle": shoot.angle = value; break;
-                case "fixedAngle": shoot.fixedAngle = value; break;
-                case "predictive": shoot.predictive = value; break;
-                case "projectileIndex": shoot.projectileIndex = value; break;
-                case "coolDown": shoot.coolDown = value; break;
-                case "coolDownOffset":
-                    shoot.coolDownOffset = value;
-                    shoot.msOffset = value;
-                    break;
-            }
-            behav.statesList_[host.host.index].actions_[host.index] = shoot;
+                var shoot:Shoot = behav.statesList_[this.host.host.index].actions_[this.host.index];
+                if (shoot == null)
+                    return;
+                switch (type)
+                {
+                    case "shots": shoot.shots = value; break;
+                    case "angle": shoot.angle = value; break;
+                    case "fixedAngle": shoot.fixedAngle = value; break;
+                    case "predictive": shoot.predictive = value; break;
+                    case "projectileIndex": shoot.projectileIndex = value; break;
+                    case "coolDown": shoot.coolDown = value; break;
+                    case "coolDownOffset":
+                        shoot.coolDownOffset = value;
+                        shoot.msOffset = value;
+                        break;
+                }
+                behav.statesList_[this.host.host.index].actions_[this.host.index] = shoot;
         }
-
+        if (this.host is WanderCell)
+        {
+            var wander:Wander = behav.statesList_[this.host.host.index].actions_[this.host.index];
+            if (wander == null)
+                return;
+            wander.speed = value;
+            behav.statesList_[this.host.host.index].actions_[this.host.index] = wander;
+        }
     }
 }
 }

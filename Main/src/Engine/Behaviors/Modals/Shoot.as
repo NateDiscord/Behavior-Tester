@@ -14,7 +14,7 @@ public class Shoot extends Behavior {
     {
         super();
         action = "Shoot";
-        toString = ["shots", "angle", "projectileIndex", "coolDown", "coolDownOffset", "fixedAngle", "predictive"];
+        toString = ["shots", "angle", "fixedAngle", "coolDown", "offset (ms)", "projectileIndex", "predictive"];
     }
 }
 }

@@ -6,10 +6,12 @@ import Engine.Behaviors.Modals.Behavior;
 import Engine.Behaviors.Modals.BehaviorDb;
 
 import Engine.Behaviors.Modals.Shoot;
+import Engine.Behaviors.Modals.Wander;
 import Engine.File.Parameters;
 import Engine.Interface.Editor;
 import Engine.Interface.Editor.Behaviors.BehaviorCell;
 import Engine.Interface.Editor.Behaviors.ShootCell;
+import Engine.Interface.Editor.Behaviors.WanderCell;
 
 import flash.display.Sprite;
 import flash.events.MouseEvent;
@@ -79,20 +81,24 @@ public class StateCell extends Sprite {
         for (var i:int = 0; i < actions.length; i++) {
             var action:Object = actions[i];
             var cell:*;
-            if (action is Shoot)
-            {
-                var sh:Shoot = action as Shoot;
-                cell = new ShootCell(i, this, sh);
+            switch (true) {
+                case action is Shoot:
+                    var sh:Shoot = action as Shoot;
+                    cell = new ShootCell(i, this, sh);
+                    break;
+                case action is Wander:
+                    var wa:Wander = action as Wander;
+                    cell = new WanderCell(i, this, wa);
+                    break;
+                default:
+                    var bh:Behavior = new Behavior();
+                    cell = new BehaviorCell(i, this, bh);
+                    break;
             }
-            else
-            {
-                var bh:Behavior = new Behavior();
-                cell = new BehaviorCell(i, this, bh);
-            }
-            cell.y = yPos;
-            addChild(cell);
 
+            cell.y = yPos;
             yPos += cell.height + 5;
+            addChild(cell);
         }
         this.expanded = true;
     }

@@ -10,6 +10,7 @@ import Engine.Interface.Editor;
 import Engine.Interface.Editor.Behaviors.BehaviorCell;
 import Engine.Interface.Editor.CellCheck;
 import Engine.Interface.Editor.CellParameter;
+import Engine.Interface.Editor.ProjChooser;
 import Engine.Interface.Editor.States.StateCell;
 
 import flash.display.Sprite;
@@ -46,8 +47,8 @@ public class ShootCell extends BehaviorCell {
 
     private function setParams():void
     {
-        CHECK = [false, false, false, false, false, false, true];
-        PARAMETERS = [this.shoot.shots, this.shoot.angle, this.shoot.fixedAngle, this.shoot.projectileIndex,  this.shoot.coolDown, this.shoot.msOffset, this.shoot.predictive];
+        CHECK = [0,0,0,0,0,2,1];
+        PARAMETERS = [this.shoot.shots, this.shoot.angle, this.shoot.fixedAngle, this.shoot.coolDown, this.shoot.msOffset, this.shoot.projectileIndex, this.shoot.predictive];
     }
 
     private function addParams():void
@@ -55,10 +56,13 @@ public class ShootCell extends BehaviorCell {
         this.parameters = new Vector.<Sprite>();
         for (var i:int = 0; i < PARAMETERS.length; i++)
         {
-            if (CHECK[i])
-                this.parameters[i] = new CellCheck(i, this);
-            else
-                this.parameters[i] = new CellParameter(this, i);
+            switch (CHECK[i])
+            {
+                case 0: this.parameters[i] = new CellParameter(this, i); break;
+                case 1: this.parameters[i] = new CellCheck(this, i); break;
+                case 2: this.parameters[i] = new ProjChooser(this); break;
+                default: return;
+            }
             addChild(this.parameters[i]);
             this.parameters.push(this.parameters[i]);
         }
