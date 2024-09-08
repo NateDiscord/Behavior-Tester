@@ -1,12 +1,11 @@
 package Engine.Interface {
-import Engine.Interface.Editor.EditorPanel;
 import Engine.Manager;
 
 import flash.display.Sprite;
 
 public class Interface extends Sprite {
 
-    public var editorPanel:EditorPanel;
+    public var editorPanel:Editor;
     public var credits:Credits;
 
     public var manager:Manager;
@@ -18,7 +17,7 @@ public class Interface extends Sprite {
         this.credits.alpha = 0.5;
         addChild(this.credits);
 
-        this.editorPanel = new EditorPanel(this);
+        this.editorPanel = new Editor(this);
         addChild(this.editorPanel);
 
         onResize();

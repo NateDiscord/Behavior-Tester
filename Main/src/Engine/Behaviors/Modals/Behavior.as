@@ -1,5 +1,6 @@
 package Engine.Behaviors.Modals {
 public class Behavior {
-    public var type:String;
+    public var action:String;
+    public var toString:Array = [];
 }
 }

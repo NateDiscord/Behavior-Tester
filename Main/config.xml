@@ -1,11 +1,15 @@
 <flex-config>
-   <!-- benchmark: output performance benchmark-->
-   <!-- benchmark usage:
-   <benchmark>boolean</benchmark>
+   <!-- advanced-telemetry usage:
+   <advanced-telemetry>boolean</advanced-telemetry>
+   -->
+   <!-- advanced-telemetry-password usage:
+   <advanced-telemetry-password>string</advanced-telemetry-password>
    -->
    <compiler>
       <!-- compiler.accessible: generate an accessible SWF-->
-      <accessible>true</accessible>
+      <!-- compiler.accessible usage:
+      <accessible>boolean</accessible>
+      -->
       <!-- compiler.actionscript-file-encoding: specifies actionscript file encoding. If there is no BOM in the AS3 source files, the compiler will use this file encoding.-->
       <!-- compiler.actionscript-file-encoding usage:
       <actionscript-file-encoding>string</actionscript-file-encoding>
@@ -14,6 +18,7 @@
       <allow-source-path-overlap>false</allow-source-path-overlap>
       <!-- compiler.as3: use the ActionScript 3 class based object model for greater performance and better error reporting. In the class based object model most built-in functions are implemented as fixed methods of classes.-->
       <as3>true</as3>
+      <!-- compiler.compress: enables or disables SWF file compression-->
       <!-- compiler.compress usage:
       <compress>boolean</compress>
       -->
@@ -46,24 +51,14 @@
       -->
       <!-- compiler.es: use the ECMAScript edition 3 prototype based object model to allow dynamic overriding of prototype properties. In the prototype based object model built-in functions are implemented as dynamic properties of prototype objects.-->
       <es>false</es>
-      <extensions>
-         <!-- compiler.extensions.extension usage:
-         <extension>
-            <extension>string</extension>
-            <parameters>string</parameters>
-         </extension>
-         -->
-      </extensions>
       <!-- compiler.external-library-path: list of SWC files or directories to compile against but to omit from linking-->
       <external-library-path>
-         <path-element>C:/Users/berke/Downloads/flex_sdk_4.9.1/frameworks/libs/player/18.0/playerglobal.swc</path-element>
+         <path-element>C:/Users/Kevin/Downloads/AIRSDK_32.0.0.116/frameworks/libs/air/airglobal.swc</path-element>
       </external-library-path>
       <fonts>
          <!-- compiler.fonts.advanced-anti-aliasing: enables advanced anti-aliasing for embedded fonts, which provides greater clarity for small fonts.-->
-         <advanced-anti-aliasing>true</advanced-anti-aliasing>
-         <!-- compiler.fonts.flash-type: enables FlashType for embedded fonts, which provides greater clarity for small fonts.-->
-         <!-- compiler.fonts.flash-type usage:
-         <flash-type>boolean</flash-type>
+         <!-- compiler.fonts.advanced-anti-aliasing usage:
+         <advanced-anti-aliasing>boolean</advanced-anti-aliasing>
          -->
          <languages>
             <!-- compiler.fonts.languages.language-range: a range to restrict the number of font glyphs embedded into the SWF-->
@@ -82,18 +77,24 @@
          </local-font-paths>
          -->
          <!-- compiler.fonts.local-fonts-snapshot: File containing system font data produced by flex2.tools.FontSnapshot.-->
-         <local-fonts-snapshot>${flexlib}/localFonts.ser</local-fonts-snapshot>
+         <!-- compiler.fonts.local-fonts-snapshot usage:
+         <local-fonts-snapshot>string</local-fonts-snapshot>
+         -->
          <!-- compiler.fonts.managers: Compiler font manager classes, in policy resolution order-->
+         <!-- compiler.fonts.managers usage:
          <managers>
-            <manager-class>flash.fonts.JREFontManager</manager-class>
-            <manager-class>flash.fonts.BatikFontManager</manager-class>
-            <manager-class>flash.fonts.AFEFontManager</manager-class>
-            <manager-class>flash.fonts.CFFFontManager</manager-class>
+            <manager-class>string</manager-class>
+            <manager-class>string</manager-class>
          </managers>
+         -->
          <!-- compiler.fonts.max-cached-fonts: sets the maximum number of fonts to keep in the server cache.  The default value is 20.-->
-         <max-cached-fonts>20</max-cached-fonts>
+         <!-- compiler.fonts.max-cached-fonts usage:
+         <max-cached-fonts>string</max-cached-fonts>
+         -->
          <!-- compiler.fonts.max-glyphs-per-face: sets the maximum number of character glyph-outlines to keep in the server cache for each font face. The default value is 1000.-->
-         <max-glyphs-per-face>1000</max-glyphs-per-face>
+         <!-- compiler.fonts.max-glyphs-per-face usage:
+         <max-glyphs-per-face>string</max-glyphs-per-face>
+         -->
       </fonts>
       <!-- compiler.headless-server: a flag to set when Flex is running on a server without a display-->
       <!-- compiler.headless-server usage:
@@ -106,9 +107,9 @@
          <library>string</library>
       </include-libraries>
       -->
-      <!-- compiler.incremental: enables incremental compilation-->
-      <!-- compiler.incremental usage:
-      <incremental>boolean</incremental>
+      <!-- compiler.inline: turn on the inlining of functions-->
+      <!-- compiler.inline usage:
+      <inline>boolean</inline>
       -->
       <!-- compiler.isolate-styles: enables the compiled application or module to set styles that only affect itself and its children-->
       <!-- compiler.isolate-styles usage:
@@ -131,37 +132,28 @@
       <keep-as3-metadata>
          <name>ArrayElementType</name>
       </keep-as3-metadata>
-      <!-- compiler.keep-generated-actionscript: save temporary source files generated during MXML compilation-->
-      <keep-generated-actionscript>false</keep-generated-actionscript>
       <!-- compiler.library-path: list of SWC files or directories that contain SWC files-->
       <library-path>
-         <path-element>C:/Users/berke/Downloads/flex_sdk_4.9.1/frameworks/locale/{locale}</path-element>
-         <path-element>C:/Users/berke/Downloads/flex_sdk_4.9.1/frameworks/libs/rpc.swc</path-element>
-         <path-element>C:/Users/berke/Downloads/flex_sdk_4.9.1/frameworks/libs/osmf.swc</path-element>
-         <path-element>C:/Users/berke/Downloads/flex_sdk_4.9.1/frameworks/libs/spark.swc</path-element>
-         <path-element>C:/Users/berke/Downloads/flex_sdk_4.9.1/frameworks/libs/apache.swc</path-element>
-         <path-element>C:/Users/berke/Downloads/flex_sdk_4.9.1/frameworks/libs/charts.swc</path-element>
-         <path-element>C:/Users/berke/Downloads/flex_sdk_4.9.1/frameworks/libs/framework.swc</path-element>
-         <path-element>C:/Users/berke/Downloads/flex_sdk_4.9.1/frameworks/libs/spark_dmv.swc</path-element>
-         <path-element>C:/Users/berke/Downloads/flex_sdk_4.9.1/frameworks/libs/sparkskins.swc</path-element>
-         <path-element>C:/Users/berke/Downloads/flex_sdk_4.9.1/frameworks/libs/textLayout.swc</path-element>
-         <path-element>C:/Users/berke/Downloads/flex_sdk_4.9.1/frameworks/libs/experimental.swc</path-element>
-         <path-element>C:/Users/berke/Downloads/flex_sdk_4.9.1/frameworks/libs/advancedgrids.swc</path-element>
-         <path-element>C:/Users/berke/Downloads/flex_sdk_4.9.1/frameworks/libs/authoringsupport.swc</path-element>
-         <path-element>C:/Users/berke/Downloads/flex_sdk_4.9.1/frameworks/libs/flash-integration.swc</path-element>
-         <path-element>C:/Users/berke/Downloads/flex_sdk_4.9.1/frameworks/libs/mx/mx.swc</path-element>
-         <path-element>C:/Users/berke/Desktop/Behavior-Tester/Main/libs/as3-signals.swc</path-element>
-         <path-element>C:/Users/berke/Desktop/Behavior-Tester/Main/libs/as3core.swc</path-element>
-         <path-element>C:/Users/berke/Desktop/Behavior-Tester/Main/libs/as3crypto.swc</path-element>
-         <path-element>C:/Users/berke/Desktop/Behavior-Tester/Main/libs/blooddy_crypto.swc</path-element>
-         <path-element>C:/Users/berke/Desktop/Behavior-Tester/Main/libs/Console.swc</path-element>
-         <path-element>C:/Users/berke/Desktop/Behavior-Tester/Main/libs/GTween-v2.01.swc</path-element>
-         <path-element>C:/Users/berke/Desktop/Behavior-Tester/Main/libs/hamcrest-as3-flex-1.1.3.swc</path-element>
-         <path-element>C:/Users/berke/Desktop/Behavior-Tester/Main/libs/Hi-Res-Stats.swc</path-element>
-         <path-element>C:/Users/berke/Desktop/Behavior-Tester/Main/libs/ionel.swc</path-element>
-         <path-element>C:/Users/berke/Desktop/Behavior-Tester/Main/libs/robotlegs.swc</path-element>
-         <path-element>C:/Users/berke/Desktop/Behavior-Tester/Main/libs/starling.swc</path-element>
-         <path-element>C:/Users/berke/Desktop/Behavior-Tester/Main/libs/Swiftsuspenders-v2.0.0rc1.swc</path-element>
+         <path-element>C:/Users/Kevin/Downloads/AIRSDK_32.0.0.116/frameworks/locale/{locale}</path-element>
+         <path-element>C:/Users/Kevin/Downloads/AIRSDK_32.0.0.116/frameworks/libs/core.swc</path-element>
+         <path-element>C:/Users/Kevin/Downloads/AIRSDK_32.0.0.116/frameworks/libs/asc-support.swc</path-element>
+         <path-element>C:/Users/Kevin/Downloads/AIRSDK_32.0.0.116/frameworks/libs/air/aircore.swc</path-element>
+         <path-element>C:/Users/Kevin/Downloads/AIRSDK_32.0.0.116/frameworks/libs/air/gamepad.swc</path-element>
+         <path-element>C:/Users/Kevin/Downloads/AIRSDK_32.0.0.116/frameworks/libs/air/servicemonitor.swc</path-element>
+         <path-element>C:/Users/Kevin/Downloads/AIRSDK_32.0.0.116/frameworks/libs/air/applicationupdater.swc</path-element>
+         <path-element>C:/Users/Kevin/Downloads/AIRSDK_32.0.0.116/frameworks/libs/air/applicationupdater_ui.swc</path-element>
+         <path-element>C:/Users/Kevin/Documents/GitHub/BehaviorEditor/Main/libs/as3-signals.swc</path-element>
+         <path-element>C:/Users/Kevin/Documents/GitHub/BehaviorEditor/Main/libs/as3core.swc</path-element>
+         <path-element>C:/Users/Kevin/Documents/GitHub/BehaviorEditor/Main/libs/as3crypto.swc</path-element>
+         <path-element>C:/Users/Kevin/Documents/GitHub/BehaviorEditor/Main/libs/blooddy_crypto.swc</path-element>
+         <path-element>C:/Users/Kevin/Documents/GitHub/BehaviorEditor/Main/libs/Console.swc</path-element>
+         <path-element>C:/Users/Kevin/Documents/GitHub/BehaviorEditor/Main/libs/GTween-v2.01.swc</path-element>
+         <path-element>C:/Users/Kevin/Documents/GitHub/BehaviorEditor/Main/libs/hamcrest-as3-flex-1.1.3.swc</path-element>
+         <path-element>C:/Users/Kevin/Documents/GitHub/BehaviorEditor/Main/libs/Hi-Res-Stats.swc</path-element>
+         <path-element>C:/Users/Kevin/Documents/GitHub/BehaviorEditor/Main/libs/ionel.swc</path-element>
+         <path-element>C:/Users/Kevin/Documents/GitHub/BehaviorEditor/Main/libs/robotlegs.swc</path-element>
+         <path-element>C:/Users/Kevin/Documents/GitHub/BehaviorEditor/Main/libs/starling.swc</path-element>
+         <path-element>C:/Users/Kevin/Documents/GitHub/BehaviorEditor/Main/libs/Swiftsuspenders-v2.0.0rc1.swc</path-element>
       </library-path>
       <!-- compiler.locale: specifies the locale for internationalization-->
       <locale>
@@ -171,7 +163,9 @@
       <minimum-supported-version>string</minimum-supported-version>
       -->
       <!-- compiler.mobile: specifies the target runtime is a mobile device-->
-      <mobile>false</mobile>
+      <!-- compiler.mobile usage:
+      <mobile>boolean</mobile>
+      -->
       <mxml>
          <!-- compiler.mxml.compatibility-version: specifies a compatibility version. e.g. -compatibility-version=2.0.1-->
          <!-- compiler.mxml.compatibility-version usage:
@@ -180,28 +174,15 @@
          <!-- compiler.mxml.minimum-supported-version usage:
          <minimum-supported-version>string</minimum-supported-version>
          -->
-         <!-- compiler.mxml.qualified-type-selectors usage:
-         <qualified-type-selectors>boolean</qualified-type-selectors>
-         -->
       </mxml>
       <namespaces>
          <!-- compiler.namespaces.namespace: Specify a URI to associate with a manifest of components for use as MXML elements-->
+         <!-- compiler.namespaces.namespace usage:
          <namespace>
-            <uri>http://ns.adobe.com/mxml/2009</uri>
-            <manifest>C:/Users/berke/Downloads/flex_sdk_4.9.1/frameworks/mxml-2009-manifest.xml</manifest>
+            <uri>string</uri>
+            <manifest>string</manifest>
          </namespace>
-         <namespace>
-            <uri>library://ns.adobe.com/flex/spark</uri>
-            <manifest>C:/Users/berke/Downloads/flex_sdk_4.9.1/frameworks/spark-manifest.xml</manifest>
-         </namespace>
-         <namespace>
-            <uri>library://ns.adobe.com/flex/mx</uri>
-            <manifest>C:/Users/berke/Downloads/flex_sdk_4.9.1/frameworks/mx-manifest.xml</manifest>
-         </namespace>
-         <namespace>
-            <uri>http://www.adobe.com/2006/mxml</uri>
-            <manifest>C:/Users/berke/Downloads/flex_sdk_4.9.1/frameworks/mxml-manifest.xml</manifest>
-         </namespace>
+         -->
       </namespaces>
       <!-- compiler.omit-trace-statements: toggle whether trace statements are omitted-->
       <omit-trace-statements>true</omit-trace-statements>
@@ -210,6 +191,9 @@
       <!-- compiler.preloader: Specifies the default value for the Application's preloader attribute. If not specified, the default preloader value is mx.preloaders.SparkDownloadProgressBar when -compatibility-version >= 4.0 and mx.preloaders.DownloadProgressBar when -compatibility-version < 4.0.-->
       <!-- compiler.preloader usage:
       <preloader>string</preloader>
+      -->
+      <!-- compiler.remove-dead-code usage:
+      <remove-dead-code>boolean</remove-dead-code>
       -->
       <!-- compiler.report-invalid-styles-as-warnings: enables reporting of invalid styles as warnings-->
       <!-- compiler.report-invalid-styles-as-warnings usage:
@@ -231,24 +215,23 @@
       <!-- compiler.show-invalid-css-property-warnings usage:
       <show-invalid-css-property-warnings>boolean</show-invalid-css-property-warnings>
       -->
+      <show-multiple-definition-warnings>true</show-multiple-definition-warnings>
       <!-- compiler.show-shadowed-device-font-warnings: toggles whether warnings are displayed when an embedded font name shadows a device font name-->
-      <show-shadowed-device-font-warnings>true</show-shadowed-device-font-warnings>
+      <!-- compiler.show-shadowed-device-font-warnings usage:
+      <show-shadowed-device-font-warnings>boolean</show-shadowed-device-font-warnings>
+      -->
       <!-- compiler.show-unused-type-selector-warnings: toggle whether warnings generated from unused CSS type selectors are displayed-->
       <!-- compiler.show-unused-type-selector-warnings usage:
       <show-unused-type-selector-warnings>boolean</show-unused-type-selector-warnings>
       -->
       <!-- compiler.source-path: list of path elements that form the roots of ActionScript class hierarchies-->
       <source-path>
-         <path-element>C:/Users/berke/Desktop/Behavior-Tester/Main/src</path-element>
+         <path-element>C:/Users/Kevin/Documents/GitHub/BehaviorEditor/Main/src</path-element>
       </source-path>
       <!-- compiler.strict: runs the AS3 compiler in strict error checking mode.-->
       <strict>true</strict>
       <!-- compiler.theme: list of CSS or SWC files to apply as a theme-->
-      <theme>
-         <filename>C:/Users/berke/Downloads/flex_sdk_4.9.1/frameworks/themes/Spark/spark.css</filename>
-      </theme>
-      <!-- compiler.use-resource-bundle-metadata: determines whether resources bundles are included in the application.-->
-      <use-resource-bundle-metadata>true</use-resource-bundle-metadata>
+      <theme></theme>
       <!-- compiler.verbose-stacktraces: save callstack information to the SWF for debugging-->
       <verbose-stacktraces>false</verbose-stacktraces>
       <!-- compiler.warn-array-tostring-changes: Array.toString() format has changed.-->
@@ -410,6 +393,20 @@
       <width>800</width>
       <height>600</height>
    </default-size>
+   <!-- dependency-graph usage:
+   <dependency-graph>filename</dependency-graph>
+   -->
+   <!-- directory: output the library as an open directory instead of a SWC file-->
+   <!-- directory usage:
+   <directory>boolean</directory>
+   -->
+   <!-- error-problems: specifies the fully qualified class names of compiler problems that should be reported as errors.-->
+   <!-- error-problems usage:
+   <error-problems>
+      <class>string</class>
+      <class>string</class>
+   </error-problems>
+   -->
    <!-- externs: a list of symbols to omit from linking when building a SWF-->
    <!-- externs usage:
    <externs>
@@ -426,10 +423,41 @@
       </frame>
       -->
    </frames>
-   <framework>halo</framework>
+   <!-- ignore-problems: specifies the fully qualified class names of compiler problems that should not be reported.-->
+   <!-- ignore-problems usage:
+   <ignore-problems>
+      <class>string</class>
+      <class>string</class>
+   </ignore-problems>
+   -->
+   <!-- include-classes: a list of classes to include in the output SWC-->
+   <!-- include-classes usage:
+   <include-classes>
+      <class>string</class>
+      <class>string</class>
+   </include-classes>
+   -->
+   <!-- include-file: a list of named files to include in the output SWC-->
+   <!-- include-file usage:
+   <include-file>
+      <name>string</name>
+      <path>string</path>
+   </include-file>
+   -->
    <!-- include-inheritance-dependencies-only: only include inheritance dependencies of classes specified with include-classes -->
    <!-- include-inheritance-dependencies-only usage:
    <include-inheritance-dependencies-only>boolean</include-inheritance-dependencies-only>
+   -->
+   <!-- include-lookup-only: if true, manifest entries with lookupOnly=true are included in SWC catalog. Default is false.-->
+   <!-- include-lookup-only usage:
+   <include-lookup-only>boolean</include-lookup-only>
+   -->
+   <!-- include-namespaces: all classes in the listed namespaces are included in the output SWC-->
+   <!-- include-namespaces usage:
+   <include-namespaces>
+      <uri>string</uri>
+      <uri>string</uri>
+   </include-namespaces>
    -->
    <!-- include-resource-bundles: a list of resource bundles to include in the output SWC-->
    <!-- include-resource-bundles usage:
@@ -437,6 +465,20 @@
       <bundle>string</bundle>
       <bundle>string</bundle>
    </include-resource-bundles>
+   -->
+   <!-- include-sources: a list of directories and source files to include in the output SWC-->
+   <!-- include-sources usage:
+   <include-sources>
+      <path-element>string</path-element>
+      <path-element>string</path-element>
+   </include-sources>
+   -->
+   <!-- include-stylesheet: a list of named stylesheet resources to include in the output SWC-->
+   <!-- include-stylesheet usage:
+   <include-stylesheet>
+      <name>string</name>
+      <path>string</path>
+   </include-stylesheet>
    -->
    <!-- includes: a list of symbols to always link in when building a SWF-->
    <!-- includes usage:
@@ -450,7 +492,7 @@
    <link-report>filename</link-report>
    -->
    <!-- load-config: load a file containing configuration options-->
-   <load-config>C:\Users\berke\.IntelliJIdea2018.2\system\compile-server\webmain_c8b430f0\_temp_\IntelliJ_IDEA\idea-198260C4-3565F32.xml</load-config>
+   <load-config>C:\Users\Kevin\.IntelliJIdea2019.1\system\compile-server\main_fdc472de\_temp_\IntelliJ_IDEA\idea-8761F5BA-3565F32.xml</load-config>
    <!-- load-externs: an XML file containing <def>, <pre>, and <ext> symbols to omit from linking when building a SWF-->
    <!-- load-externs usage:
    <load-externs>filename</load-externs>
@@ -502,7 +544,7 @@
       -->
    </metadata>
    <!-- output: the filename of the SWF movie to create-->
-   <output>C:/Users/berke/Desktop/Behavior-Tester/Main/bin-debug/Main.swf</output>
+   <output>C:/Users/Kevin/Documents/GitHub/BehaviorEditor/Main/bin-debug/Main.swf</output>
    <!-- raw-metadata: XML text to store in the SWF metadata (overrides metadata.* configuration)-->
    <!-- raw-metadata usage:
    <raw-metadata>text</raw-metadata>
@@ -546,16 +588,20 @@
       </force-rsls>
       -->
    </runtime-shared-library-settings>
+   <!-- single-thread: a flag to specify compiler to run in single thread-->
+   <single-thread>false</single-thread>
    <!-- size-report: Output an XML-formatted report detailing the size of all code and data linked into the application.-->
    <!-- size-report usage:
    <size-report>filename</size-report>
    -->
    <!-- static-link-runtime-shared-libraries: statically link the libraries specified by the -runtime-shared-libraries-path option.-->
-   <static-link-runtime-shared-libraries>false</static-link-runtime-shared-libraries>
+   <!-- static-link-runtime-shared-libraries usage:
+   <static-link-runtime-shared-libraries>boolean</static-link-runtime-shared-libraries>
+   -->
    <!-- swf-version: specifies the version of the compiled SWF file.-->
    <swf-version>15</swf-version>
    <!-- target-player: specifies the version of the player the application is targeting. Features requiring a later version will not be compiled into the application. The minimum value supported is "9.0.0".-->
-   <target-player>18.0</target-player>
+   <target-player>32.0</target-player>
    <!-- tools-locale: specifies the locale used by the compiler when reporting errors and warnings.-->
    <!-- tools-locale usage:
    <tools-locale>string</tools-locale>
@@ -575,6 +621,13 @@
    <!-- version: display the build version of the program-->
    <!-- version usage:
    <version>boolean</version>
+   -->
+   <!-- warning-problems: specifies the fully qualified class names of compiler problems that should be reported as warnings.-->
+   <!-- warning-problems usage:
+   <warning-problems>
+      <class>string</class>
+      <class>string</class>
+   </warning-problems>
    -->
    <!-- warnings: toggle the display of warnings-->
    <!-- warnings usage:

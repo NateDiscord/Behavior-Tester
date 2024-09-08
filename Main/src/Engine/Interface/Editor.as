@@ -1,5 +1,6 @@
-package Engine.Interface.Editor {
+package Engine.Interface {
 import Display.Assets.Elements.Scrollbar;
+import Display.Assets.Objects.Entity;
 import Display.Control.ObjectLibrary;
 import Display.Control.Redrawers.TextureRedrawer;
 import Display.Text.SimpleText;
@@ -7,7 +8,10 @@ import Display.Util.FilterUtil;
 import Display.Util.GraphicsUtil;
 import Display.Util.TextUtil;
 
+import Engine.Behaviors.Modals.BehaviorDb;
+
 import Engine.File.Parameters;
+import Engine.Interface.Editor.States.StateCell;
 
 import Engine.Interface.Interface;
 
@@ -23,7 +27,7 @@ import flash.display.Sprite;
 import flash.events.MouseEvent;
 import flash.geom.Point;
 
-public class EditorPanel extends Sprite {
+public class Editor extends Sprite {
 
     public static const PANEL_WIDTH:int = 400;
     public static const INSET_WIDTH:int = 390;
@@ -50,7 +54,7 @@ public class EditorPanel extends Sprite {
     private var offset:Point;
     public var hasBeenMoved:Boolean = false;
 
-    public function EditorPanel(host:Interface) {
+    public function Editor(host:Interface) {
         this.host = host;
 
         this.offset = new Point();
@@ -81,7 +85,8 @@ public class EditorPanel extends Sprite {
         this.headerText = new SimpleText(20, 0xFFFFFF);
         TextUtil.handleText(this.headerText, "Behavior Editor", this);
 
-        var bd:BitmapData = ObjectLibrary.getRedrawnTextureFromType(Main.CURRENT_ENTITY.objectType);
+        var en:Vector.<Entity> = Parameters.data_["entities"];
+        var bd:BitmapData = ObjectLibrary.getRedrawnTextureFromType(en[0].objectType);
         var check:Boolean = bd.width > 8;
         bd = TextureRedrawer.redraw(bd, check ? 40 : 80, false, 0);
         this.enemyBitmap = new Bitmap(bd);
@@ -90,10 +95,10 @@ public class EditorPanel extends Sprite {
         this.inset.addChild(this.enemyBitmap);
 
         this.enemyName = new SimpleText(16, 0xffffff, false);
-        TextUtil.handleText(this.enemyName, ObjectLibrary.getIdFromType(Main.CURRENT_ENTITY.objectType), this.inset);
+        TextUtil.handleText(this.enemyName, ObjectLibrary.getIdFromType(en[0].objectType), this.inset);
 
         this.enemyHealth = new SimpleText(12, 0xaaaaaa, false);
-        TextUtil.handleText(this.enemyHealth, Main.CURRENT_ENTITY.xml_.MaxHitPoints + " HP", this.inset);
+        TextUtil.handleText(this.enemyHealth, en[0].xml_.MaxHitPoints + " HP", this.inset);
 
         this.lineBreak = addLineBreak();
         this.lineBreak.x = 5;
@@ -136,7 +141,8 @@ public class EditorPanel extends Sprite {
     private function addContent():void
     {
         this.stateCells = new Vector.<StateCell>();
-        var len:int = Main.CURRENT_BEHAVIOR.statesList_.length;
+        var behav:BehaviorDb = Parameters.data_["targetBehavior"];
+        var len:int = behav.statesList_.length;
         for (var i:int = 0; i < len; i++)
         {
             this.stateCells[i] = new StateCell(i, this);

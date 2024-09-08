@@ -2,15 +2,12 @@ package Engine {
 import Display.Assets.Objects.BasicObject;
 import Display.Assets.Objects.Entity;
 import Display.Control.ObjectLibrary;
+
 import Engine.Behaviors.CycleLogic;
 import Engine.Behaviors.Modals.BehaviorDb;
 import Engine.File.Parameters;
-import Engine.Interface.Editor.EditorPanel;
+import Engine.Interface.Editor;
 import Engine.Interface.Interface;
-
-import flash.display.Bitmap;
-
-import flash.display.BitmapData;
 
 import flash.display.Sprite;
 import flash.events.Event;
@@ -53,7 +50,7 @@ public class Manager extends Sprite {
 
     private function addCamera():void
     {
-        var offset:Number = -(EditorPanel.INSET_WIDTH / 2);
+        var offset:Number = -(Editor.INSET_WIDTH / 2);
         var coords:Point = this.tileMap.centerCamera(0.5, 0.5, offset);
         this.camera = new Camera(this.map, this.tileMap, coords);
         addChild(this.camera);
@@ -67,9 +64,7 @@ public class Manager extends Sprite {
             var obj:Entity = new Entity(this.map, ObjectLibrary.idToType_[this.behavior.name_]);
             vec.push(obj);
             Parameters.data_["entities"] = vec;
-            Main.CURRENT_ENTITY = obj;
         }
-
         var defaults:Vector.<Entity> = Parameters.data_["entities"];
         var entity:Entity = defaults[0];
         this.tileMap.setCoordsCenter(entity, 0.5, 0.5);

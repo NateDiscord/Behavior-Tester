@@ -6,8 +6,7 @@ public class Action {
     public var elapsedTime:Number = 0;
     public var cycle:Boolean = true;
 
-    public function Action()
-    {
+    public function Action() {
         this.startTime = getTimer();
     }
 
@@ -20,8 +19,7 @@ public class Action {
     public function update() : void {
     }
 
-    public function updateTime() : void
-    {
+    public function updateTime() : void {
         this.elapsedTime = getTimer() - this.startTime;
     }
 }

@@ -24,10 +24,12 @@ import flash.events.Event;
 public class Main extends Sprite {
 
     public var manager:Manager;
+    public var gameLayer:Sprite;
 
     public static var STAGE:Stage;
-    public static var CURRENT_ENTITY:Entity;
     public static var CURRENT_BEHAVIOR:BehaviorDb;
+
+    public static const TILE_SIZE:int = 40;
 
     public function Main()
     {
@@ -47,7 +49,7 @@ public class Main extends Sprite {
 
     private function loadGame(behavior:BehaviorDb) : void
     {
-        CURRENT_BEHAVIOR = behavior;
+        Parameters.data_["targetBehavior"] = behavior;
         if (!this.manager)
             this.manager = new Manager(behavior);
         addChild(this.manager);

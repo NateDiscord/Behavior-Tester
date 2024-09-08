@@ -2,20 +2,24 @@ package Engine.Behaviors.Actions {
 import Display.Assets.Objects.Entity;
 
 import Engine.Behaviors.Actions.Utils.WanderStorage;
-
 import Engine.Behaviors.Modals.Wander;
+
+import flash.utils.getTimer;
 
 public class WanderAction extends Action
 {
     private var host:Entity;
     private var action:Wander;
     private var wanderStorage:WanderStorage;
+    private var directionChangeInterval:Number = 1000;
+    private var lastDirectionChange:Number = 0;
 
     public function WanderAction(host:Entity, action:Wander)
     {
         this.host = host;
         this.action = action;
         this.wanderStorage = new WanderStorage();
+        this.lastDirectionChange = getTimer();
     }
 
     public override function update() : void
@@ -23,25 +27,23 @@ public class WanderAction extends Action
         if (this.host == null)
             return;
 
-        this.updateTime();
-        if (this.elapsedTime > 1000)
-        {
-            this.resetTime();
-            return;
+        updateTime();
+
+        var timeDelta:Number = this.elapsedTime / 1000;
+        var dist:Number = this.action.speed * (Main.TILE_SIZE * 1.5) * timeDelta;
+        var currentTime:Number = getTimer();
+        if (currentTime - this.lastDirectionChange > directionChangeInterval) {
+            this.wanderStorage.direction.x = Math.random() * 2 - 1;
+            this.wanderStorage.direction.y = Math.random() * 2 - 1;
+            this.wanderStorage.direction.normalize(1);
+            this.lastDirectionChange = currentTime;
         }
 
-        if (this.wanderStorage.remainingDistance <= 0)
-        {
-            this.wanderStorage.direction.x = Math.random() < 0.5 ? -1 : 1;
-            this.wanderStorage.direction.y = Math.random() < 0.5 ? -1 : 1;
-            this.wanderStorage.direction.normalize(1);
-            this.wanderStorage.remainingDistance = 600 / 1000;
-        }
-        var dist:Number = this.action.speed * (this.elapsedTime / 1000);
         this.host.x += this.wanderStorage.direction.x * dist;
         this.host.y += this.wanderStorage.direction.y * dist;
-        this.wanderStorage.remainingDistance -= dist;
+        this.wanderStorage.remainingDistance = .6;
 
+        resetTime();
     }
 }
 }
