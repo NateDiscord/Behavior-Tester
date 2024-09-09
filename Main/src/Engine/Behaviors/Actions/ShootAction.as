@@ -24,13 +24,15 @@ public class ShootAction extends Action
             return;
 
         this.updateTime();
-        if (this.elapsedTime > action.coolDown)
-        {
+        if (this.elapsedTime > action.coolDown) {
             resetTime();
             return;
         }
+
         if (this.elapsedTime >= action.coolDownOffset && this.cycle) {
             for (var i:int = 0; i < action.shots; i++) {
+                if (!host.isVisible)
+                    continue;
                 var angle:Number = action.fixedAngle + (action.angle * i);
                 var projectile:Projectile = new Projectile(host.map_, host, host.projectiles_[action.projectileIndex], angle * (Math.PI / 180), getTimer());
                 host.map_.addObj(projectile);

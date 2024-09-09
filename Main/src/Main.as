@@ -16,6 +16,7 @@ import Engine.Manager;
 
 import flash.display.Sprite;
 import flash.display.Stage;
+import flash.display.StageAlign;
 import flash.display.StageScaleMode;
 import flash.events.Event;
 
@@ -23,13 +24,8 @@ import flash.events.Event;
 public class Main extends Sprite {
 
     public static var STAGE:Stage;
-    public static var windowWidth:int = 1280;
-    public static var windowHeight:int = 720;
-
-    public var manager:Manager;
-
-    public static var CURRENT_ENTITY:Entity;
-    public static var CURRENT_BEHAVIOR:BehaviorDb;
+    public static var MANAGER:Manager;
+    public static const TILE_SIZE:int = 40;
 
     public function Main()
     {
@@ -49,10 +45,10 @@ public class Main extends Sprite {
 
     private function loadGame(behavior:BehaviorDb) : void
     {
-        CURRENT_BEHAVIOR = behavior;
-        if (!this.manager)
-            this.manager = new Manager(behavior);
-        addChild(this.manager);
+        Parameters.data_["targetBehavior"] = behavior;
+        if (!MANAGER)
+            MANAGER = new Manager(behavior);
+        addChild(MANAGER);
     }
 
     private function onAddedToStage(e:Event) : void
@@ -65,8 +61,8 @@ public class Main extends Sprite {
     {
         new AssetLoader().load();
         Parameters.load();
-        stage.align = "TL";
-        stage.scaleMode = "noScale";
+        stage.align = StageAlign.TOP_LEFT;
+        stage.scaleMode = StageScaleMode.NO_SCALE;
         STAGE = stage;
     }
 }

@@ -1,29 +1,39 @@
-package Engine.Interface.Editor {
+package Engine.Interface.Editor.Behaviors {
+
 import Display.Text.SimpleText;
 import Display.Util.TextUtil;
 
+import Engine.Behaviors.Modals.Behavior;
+
 import Engine.Behaviors.Modals.Shoot;
+import Engine.Interface.Editor;
+import Engine.Interface.Editor.Behaviors.BehaviorCell;
+import Engine.Interface.Editor.CellCheck;
+import Engine.Interface.Editor.CellParameter;
+import Engine.Interface.Editor.ProjChooser;
+import Engine.Interface.Editor.States.StateCell;
 
 import flash.display.Sprite;
 
+public class ShootCell extends BehaviorCell {
 
-public class ShootCell extends Sprite {
-
-    private var action:Shoot;
+    public var shoot:Shoot;
     public var actionText:SimpleText;
     private var parameters:Vector.<Sprite>;
 
-    public static var PARAMETERS:Array;
-    public static var DISPLAY_NAMES:Array = ["Shots", "Arc Gap", "Angle", "Proj. Index", "Cooldown", "Cooldown Offset", "Predictive"];
-    public static var CHECK:Array = [false, false, false, false, false, false, true];
+    public var CHECK:Array;
 
-    public function ShootCell(action:Shoot) {
-        this.action = action;
-        if (!this.action is Shoot)
+    public function ShootCell(index:int, host:StateCell, behavior:Behavior) {
+        super(index, host, behavior);
+        if (!behavior is Shoot)
             return;
+
+        var shoot:Shoot = behavior as Shoot;
+        this.shoot = shoot;
 
         drawBackground();
         addHeader();
+        setParams();
         addParams();
         positionParams();
     }
@@ -35,16 +45,24 @@ public class ShootCell extends Sprite {
         TextUtil.handleText(this.actionText, "new <font color=\"#ffffff\">Shoot</font>:", this);
     }
 
+    private function setParams():void
+    {
+        CHECK = [0,0,0,0,0,2,1];
+        PARAMETERS = [this.shoot.shots, this.shoot.angle, this.shoot.fixedAngle, this.shoot.coolDown, this.shoot.coolDownOffset, this.shoot.projectileIndex, this.shoot.predictive];
+    }
+
     private function addParams():void
     {
-        PARAMETERS = [this.action.shots, this.action.angle, this.action.fixedAngle, this.action.projectileIndex,  this.action.coolDown, this.action.msOffset, this.action.predictive];
         this.parameters = new Vector.<Sprite>();
         for (var i:int = 0; i < PARAMETERS.length; i++)
         {
-            if (CHECK[i])
-                this.parameters[i] = new CellCheck(PARAMETERS[i], DISPLAY_NAMES[i]);
-            else
-                this.parameters[i] = new CellParameter(PARAMETERS[i], DISPLAY_NAMES[i]);
+            switch (CHECK[i])
+            {
+                case 0: this.parameters[i] = new CellParameter(this, i); break;
+                case 1: this.parameters[i] = new CellCheck(this, i); break;
+                case 2: this.parameters[i] = new ProjChooser(this); break;
+                default: return;
+            }
             addChild(this.parameters[i]);
             this.parameters.push(this.parameters[i]);
         }
@@ -73,7 +91,7 @@ public class ShootCell extends Sprite {
         graphics.clear();
         graphics.beginFill(0x2b2b2b, 1);
         graphics.lineStyle(2, 0x151515);
-        graphics.drawRoundRect(0, 0, EditorPanel.INSET_WIDTH - 20, 90, 15, 15);
+        graphics.drawRoundRect(0, 0, Editor.INSET_WIDTH - 20, 90, 15, 15);
         graphics.endFill();
         graphics.beginFill(0x151515, 1);
         graphics.drawRoundRect(0, 0, 20, 90, 15, 15);
