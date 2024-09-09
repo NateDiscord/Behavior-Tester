@@ -44,7 +44,6 @@ public class ActionLibrary {
                     }
                 }
             }
-
             return instance;
         } else {
             throw new Error("Unknown action type: " + actionType);

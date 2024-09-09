@@ -3,8 +3,7 @@
  	[state="First"]
  	{
  		[action="shoot", projectileIndex="1", shots="4", angle="90", fixedAngle="45", coolDown="1500"],
- 		[action="shoot", projectileIndex="0", shots="4", angle="90", coolDown="1500", coolDownOffset="750"],
- 		[action="wander", speed="0.5"]
+ 		[action="shoot", projectileIndex="0", shots="4", angle="90", coolDown="1500", coolDownOffset="750"]
  	},
  	[state="Second"]
  	{

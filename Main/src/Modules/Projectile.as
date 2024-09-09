@@ -31,12 +31,59 @@ public class Projectile extends BasicObject
         super(map, objectType, this.projProps.size_, true);
     }
 
-    private function positionAt(elapsed:int, p:Point):void {
+    private function positionAt(elapsed:int, p:Point) : void
+    {
+        var periodFactor:Number;
+        var amplitudeFactor:Number;
+        var theta:Number;
+        var t:Number;
+        var x:Number;
+        var y:Number;
+        var sinAngle:Number;
+        var cosAngle:Number;
+        var halfwayDist:Number;
+        var deflection:Number;
         p.x = this.staticPoint_.x;
         p.y = this.staticPoint_.y;
-        var dist:Number = elapsed * (this.projProps.speed_ / 10000);
-        p.x = p.x + dist * Math.cos(this.angle_);
-        p.y = p.y + dist * Math.sin(this.angle_);
+        var distance:Number = elapsed * (this.projProps.speed_ / 10000);
+        var phase:Number = (this.objectType % 2 == 0) ? 0 : Math.PI;
+        if (this.projProps.wavy_)
+        {
+            periodFactor = 6 * Math.PI;
+            amplitudeFactor = Math.PI / 64;
+            theta = this.angle_ + amplitudeFactor * Math.sin(phase + periodFactor * elapsed / 1000);
+            p.x += distance * Math.cos(theta);
+            p.y += distance * Math.sin(theta);
+        }
+        else if (this.projProps.parametric_)
+        {
+            t = elapsed / this.projProps.lifetime_ * 2 * Math.PI;
+            x = Math.sin(t) * ((this.objectType % 2) ? 1 : -1);
+            y = Math.sin(2 * t) * ((this.objectType % 4 < 2) ? 1 : -1);
+            sinAngle = Math.sin(this.angle_);
+            cosAngle = Math.cos(this.angle_);
+            p.x += (x * cosAngle - y * sinAngle) * this.projProps.magnitude_;
+            p.y += (x * sinAngle + y * cosAngle) * this.projProps.magnitude_;
+        }
+        else
+        {
+            if (this.projProps.boomerang_)
+            {
+                halfwayDist = this.projProps.lifetime_ * (this.projProps.speed_ / 10000) / 2;
+                if (distance > halfwayDist)
+                {
+                    distance = halfwayDist - (distance - halfwayDist);
+                }
+            }
+            p.x += distance * Math.cos(this.angle_);
+            p.y += distance * Math.sin(this.angle_);
+            if (this.projProps.amplitude_ != 0)
+            {
+                deflection = this.projProps.amplitude_ * Math.sin(phase + elapsed / this.projProps.lifetime_ * this.projProps.frequency_ * 2 * Math.PI);
+                p.x += deflection * Math.cos(this.angle_ + Math.PI / 2);
+                p.y += deflection * Math.sin(this.angle_ + Math.PI / 2);
+            }
+        }
     }
 
     override public function update(time:int) : Boolean {
