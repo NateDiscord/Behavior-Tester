@@ -1,12 +1,16 @@
 package Engine.Behaviors.Actions {
+import Display.Assets.Objects.Entity;
+
 import flash.utils.getTimer;
 
 public class Action {
     public var startTime:Number;
     public var elapsedTime:Number = 0;
     public var cycle:Boolean = true;
+    public var entity:Entity;
 
-    public function Action() {
+    public function Action(en:Entity) {
+        this.entity = en;
         this.startTime = getTimer();
     }
 

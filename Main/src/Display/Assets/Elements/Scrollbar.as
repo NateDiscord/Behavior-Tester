@@ -28,7 +28,7 @@ import flash.display.Graphics;
       private var posIndicator_:Sprite;
       private var lastUpdateTime_:int;
       private var change_:Number;
-      private var backgroundFill_:GraphicsSolidFill = new GraphicsSolidFill(16777215,1);
+      private var backgroundFill_:GraphicsSolidFill = new GraphicsSolidFill(0xaaaaaa,1);
       private var path_:GraphicsPath= new GraphicsPath(new Vector.<int>(),new Vector.<Number>());
       private const graphicsData_:Vector.<IGraphicsData> = new <IGraphicsData>[backgroundFill_,path_,GraphicsUtil.END_FILL];
       
@@ -55,7 +55,7 @@ import flash.display.Graphics;
          g.beginFill(3487029,0.01);
          g.drawRect(-w / 2,-h / 2,w,h);
          g.endFill();
-         g.beginFill(16777215,1);
+         g.beginFill(0xaaaaaa,1);
          g.moveTo(-w / 2,-h / 2);
          g.lineTo(w / 2,0);
          g.lineTo(-w / 2,h / 2);

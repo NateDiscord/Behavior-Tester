@@ -9,18 +9,17 @@ import flash.utils.getTimer;
 
 public class ShootAction extends Action
 {
-    private var host:Entity;
     private var action:Shoot;
 
-    public function ShootAction(host:Entity, action:Shoot)
+    public function ShootAction(entity:Entity, action:Shoot)
     {
-        this.host = host;
+        super(entity);
         this.action = action;
     }
 
     public override function update() : void
     {
-        if (this.host == null)
+        if (this.entity == null)
             return;
 
         this.updateTime();
@@ -31,11 +30,11 @@ public class ShootAction extends Action
 
         if (this.elapsedTime >= action.coolDownOffset && this.cycle) {
             for (var i:int = 0; i < action.shots; i++) {
-                if (!host.isVisible)
+                if (!this.entity.isVisible)
                     continue;
                 var angle:Number = action.fixedAngle + (action.angle * i);
-                var projectile:Projectile = new Projectile(host.map_, host, host.projectiles_[action.projectileIndex], angle * (Math.PI / 180), getTimer());
-                host.map_.addObj(projectile);
+                var projectile:Projectile = new Projectile(this.entity.map_, this.entity, this.entity.projectiles_[action.projectileIndex], angle * (Math.PI / 180), getTimer());
+                this.entity.map_.addObj(projectile);
             }
             this.cycle = false;
         }

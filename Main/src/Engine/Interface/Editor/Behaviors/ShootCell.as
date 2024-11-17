@@ -1,6 +1,8 @@
 package Engine.Interface.Editor.Behaviors {
 
 import Display.Text.SimpleText;
+import Display.Util.ColorUtil;
+import Display.Util.GraphicsUtil;
 import Display.Util.TextUtil;
 
 import Engine.Behaviors.Modals.Behavior;
@@ -31,7 +33,6 @@ public class ShootCell extends BehaviorCell {
         var shoot:Shoot = behavior as Shoot;
         this.shoot = shoot;
 
-        drawBackground();
         addHeader();
         setParams();
         addParams();
@@ -84,21 +85,6 @@ public class ShootCell extends BehaviorCell {
         this.parameters[5].y = 62;
         this.parameters[6].x = 10;
         this.parameters[6].y = 62;
-    }
-
-    private function drawBackground():void
-    {
-        graphics.clear();
-        graphics.beginFill(0x2b2b2b, 1);
-        graphics.lineStyle(2, 0x151515);
-        graphics.drawRoundRect(0, 0, Editor.INSET_WIDTH - 20, 90, 15, 15);
-        graphics.endFill();
-        graphics.beginFill(0x151515, 1);
-        graphics.drawRoundRect(0, 0, 20, 90, 15, 15);
-        graphics.endFill();
-        graphics.beginFill(0x151515, 1);
-        graphics.drawRect(8, 0, 95, 90);
-        graphics.endFill();
     }
 }
 }

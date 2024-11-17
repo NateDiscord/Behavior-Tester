@@ -4,6 +4,7 @@ import Display.Assets.Objects.Entity;
 import Display.Control.ObjectLibrary;
 import Display.Control.Redrawers.TextureRedrawer;
 import Display.Text.SimpleText;
+import Display.Util.ColorUtil;
 import Display.Util.FilterUtil;
 import Display.Util.GraphicsUtil;
 import Display.Util.TextUtil;
@@ -33,20 +34,16 @@ public class Editor extends Sprite {
     public static const INSET_WIDTH:int = 390;
 
     public static const PANEL_HEIGHT:int = 700;
-    public static const INSET_HEIGHT:int = 660;
+    public static const INSET_HEIGHT:int = 675;
 
     private var container:Sprite;
     private var inset:Sprite;
 
-    private var headerText:SimpleText;
-    private var lineBreak:Sprite;
-    private var lineBreakTwo:Sprite;
     private var scrollBar:Scrollbar;
     public var stateCells:Vector.<StateCell>;
 
     private var enemyBitmap:Bitmap;
     private var enemyName:SimpleText;
-    private var enemyHealth:SimpleText;
     private var editorBounds:Sprite;
     private var editorMask:Sprite;
 
@@ -72,50 +69,32 @@ public class Editor extends Sprite {
         this.container = new Sprite();
         this.inset = new Sprite();
 
-        this.container = GraphicsUtil.drawBackground(PANEL_WIDTH, PANEL_HEIGHT, 12);
+        this.container = GraphicsUtil.drawTransparentWindow(PANEL_WIDTH, 30, ColorUtil.EDITOR_HEADER_COLOR, 0.9);
         addChild(this.container);
 
-        this.inset = GraphicsUtil.drawInset(INSET_WIDTH, INSET_HEIGHT, 10);
-        this.inset.x = 5;
-        this.inset.y = 35;
+        this.inset = GraphicsUtil.drawTransparentWindow(PANEL_WIDTH, PANEL_HEIGHT - 30, ColorUtil.EDITOR_COLOR, 0.9);
+        this.inset.y = 30;
         this.container.addChild(this.inset);
+
+        this.filters = FilterUtil.getEditorOutlineFilter();
     }
 
     private function addHeader():void {
-        this.headerText = new SimpleText(20, 0xFFFFFF);
-        TextUtil.handleText(this.headerText, "Behavior Editor", this);
-
         var en:Vector.<Entity> = Parameters.data_["entities"];
         var bd:BitmapData = ObjectLibrary.getRedrawnTextureFromType(en[0].objectType);
-        var check:Boolean = bd.width > 8;
-        bd = TextureRedrawer.redraw(bd, check ? 40 : 80, false, 0);
+        bd = TextureRedrawer.redraw(bd, 20, false, 0);
         this.enemyBitmap = new Bitmap(bd);
-        this.enemyBitmap.x = 5;
-        this.enemyBitmap.y = 5;
-        this.inset.addChild(this.enemyBitmap);
+        addChild(this.enemyBitmap);
 
-        this.enemyName = new SimpleText(16, 0xffffff, false);
-        TextUtil.handleText(this.enemyName, ObjectLibrary.getIdFromType(en[0].objectType), this.inset);
-
-        this.enemyHealth = new SimpleText(12, 0xaaaaaa, false);
-        TextUtil.handleText(this.enemyHealth, en[0].xml_.MaxHitPoints + " HP", this.inset);
-
-        this.lineBreak = addLineBreak();
-        this.lineBreak.x = 5;
-        this.lineBreak.y = this.enemyBitmap.y + this.enemyBitmap.height + 10;
-        this.inset.addChild(this.lineBreak);
+        this.enemyName = new SimpleText(14, 0xffffff, false);
+        TextUtil.handleText(this.enemyName, ObjectLibrary.getIdFromType(en[0].objectType), this);
 
         this.editorBounds = new Sprite();
         this.editorMask = setBounds();
-        this.editorBounds.y = this.editorMask.y = this.lineBreak.y + 5;
+        this.editorBounds.y = 5;
         this.editorBounds.mask = this.editorMask;
         this.inset.addChild(this.editorBounds);
         this.inset.addChild(this.editorMask);
-
-        this.lineBreakTwo = addLineBreak();
-        this.lineBreakTwo.x = 5;
-        this.lineBreakTwo.y = this.editorMask.y + this.editorMask.height + 5;
-        this.inset.addChild(this.lineBreakTwo);
     }
 
     private function setBounds():Sprite {
@@ -123,18 +102,8 @@ public class Editor extends Sprite {
         var g:Graphics = s.graphics;
         g.clear();
         g.beginFill(0, 0);
-        g.drawRect(0, 0, INSET_WIDTH, INSET_HEIGHT - (this.lineBreak.y + 5) - 20);
+        g.drawRect(0, 0, INSET_WIDTH, INSET_HEIGHT - 35);
         g.endFill();
-        return s;
-    }
-
-    private function addLineBreak():Sprite {
-        var s:Sprite = new Sprite();
-        var g:Graphics = s.graphics;
-        g.clear();
-        g.lineStyle(2, 0x505050);
-        g.beginFill(0, 0);
-        g.drawRoundRect(0, 0, INSET_WIDTH - 10, 1, 5, 5);
         return s;
     }
 
@@ -153,14 +122,11 @@ public class Editor extends Sprite {
 
     public function rePosition():void
     {
-        this.headerText.x = PANEL_WIDTH / 2 - this.headerText.width / 2;
-        this.headerText.y = 5;
+        this.enemyBitmap.x = -6;
+        this.enemyBitmap.y = -6;
 
-        this.enemyName.x = this.enemyBitmap.width;
-        this.enemyName.y = this.enemyBitmap.x + (this.enemyBitmap.height / 2 - this.enemyName.height / 2) - 2;
-
-        this.enemyHealth.x = this.enemyName.x;
-        this.enemyHealth.y = this.enemyName.y + this.enemyName.height - 3;
+        this.enemyName.x = this.enemyBitmap.width - 12;
+        this.enemyName.y = 5;
 
         var len:int = this.stateCells.length - 1;
         for (var i:int = 0; i < len; i++)
@@ -169,7 +135,7 @@ public class Editor extends Sprite {
             if (i == 0)
                 this.stateCells[i].y = 5;
             else
-                this.stateCells[i].y = 5 + (this.stateCells[i - 1].height * i) + (5 * i);
+                this.stateCells[i].y = 5 + (this.stateCells[i - 1].height * i);
         }
 
         if (this.scrollBar)
@@ -193,7 +159,7 @@ public class Editor extends Sprite {
 
     private function onScrollBarChange(event:Event) : void
     {
-        var offset:int = this.lineBreak.y + 3;
+        var offset:int = 5;
         this.editorBounds.y = offset - (this.scrollBar.pos() * (this.editorBounds.height - this.editorMask.height));
     }
 

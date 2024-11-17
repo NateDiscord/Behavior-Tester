@@ -8,15 +8,14 @@ import flash.utils.getTimer;
 
 public class WanderAction extends Action
 {
-    private var host:Entity;
     private var action:Wander;
     private var wanderStorage:WanderStorage;
     private var directionChangeInterval:Number = 1000;
     private var lastDirectionChange:Number = 0;
 
-    public function WanderAction(host:Entity, action:Wander)
+    public function WanderAction(entity:Entity, action:Wander)
     {
-        this.host = host;
+        super(entity);
         this.action = action;
         this.wanderStorage = new WanderStorage();
         this.lastDirectionChange = getTimer();
@@ -24,7 +23,7 @@ public class WanderAction extends Action
 
     public override function update() : void
     {
-        if (this.host == null)
+        if (this.entity == null)
             return;
 
         updateTime();
@@ -39,8 +38,8 @@ public class WanderAction extends Action
             this.lastDirectionChange = currentTime;
         }
 
-        this.host.x += this.wanderStorage.direction.x * dist;
-        this.host.y += this.wanderStorage.direction.y * dist;
+        this.entity.x += this.wanderStorage.direction.x * dist;
+        this.entity.y += this.wanderStorage.direction.y * dist;
         this.wanderStorage.remainingDistance = .6;
 
         resetTime();

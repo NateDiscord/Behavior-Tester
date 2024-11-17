@@ -77,11 +77,11 @@ public class Camera extends Sprite {
     private function onMouseWheel(e:MouseEvent):void {
         if (keys[Keyboard.CONTROL]) {
             if (e.delta > 0) {
-                scaleX += scaleStep;
-                scaleY += scaleStep;
+                scaleX = Math.min(scaleX + scaleStep, 2);
+                scaleY = Math.min(scaleY + scaleStep, 2);
             } else if (e.delta < 0) {
-                scaleX -= (scaleX < 0.8) ? 0 : scaleStep;
-                scaleY -= (scaleY < 0.8) ? 0 : scaleStep;
+                scaleX = Math.max(scaleX - scaleStep, 0.5);
+                scaleY = Math.max(scaleY - scaleStep, 0.5);
             }
             updateCamera();
         }
@@ -91,30 +91,24 @@ public class Camera extends Sprite {
         var stageWidth:Number = Main.STAGE.stageWidth;
         var stageHeight:Number = Main.STAGE.stageHeight;
 
+        // Calculate offsets based on scale
         var offsetX:Number = (stageWidth / 2) - (position.x * scaleX);
         var offsetY:Number = (stageHeight / 2) - (position.y * scaleY);
 
+        // Apply offsets to map and tileMap
         map.x = offsetX;
         map.y = offsetY;
         tileMap.x = offsetX;
         tileMap.y = offsetY;
 
+        // Apply scaling
         map.scaleX = scaleX;
         map.scaleY = scaleY;
         tileMap.scaleX = scaleX;
         tileMap.scaleY = scaleY;
 
-        for (var i:int = 0; i < map.numChildren; i++) {
-            var child:Entity = map.getChildAt(i) as Entity;
-            if (child)
-                if (tileMap.isEntityWithinTilemap(child)) {
-                    child.isVisible = true;
-                    child.visible = true;
-                } else {
-                    child.isVisible = false;
-                    child.visible = false;
-                }
-        }
+        // Update visibility of entities
+        map.updateEntityVisibility(tileMap);
     }
 
     public function adjustPosition():void {

@@ -1,6 +1,8 @@
 package Engine.Interface.Editor.Behaviors {
 
 import Display.Text.SimpleText;
+import Display.Util.ColorUtil;
+import Display.Util.GraphicsUtil;
 import Display.Util.TextUtil;
 
 import Engine.Behaviors.Modals.Behavior;
@@ -19,9 +21,8 @@ public class WanderCell extends BehaviorCell {
 
     public var wander:Wander;
     public var actionText:SimpleText;
+    public var editTypes:Array;
     private var parameters:Vector.<Sprite>;
-
-    public var CHECK:Array;
 
     public function WanderCell(index:int, host:StateCell, behavior:Behavior) {
         super(index, host, behavior);
@@ -46,7 +47,7 @@ public class WanderCell extends BehaviorCell {
 
     private function setParams():void
     {
-        CHECK = [false];
+        editTypes = [false];
         PARAMETERS = [this.wander.speed];
     }
 
@@ -55,7 +56,7 @@ public class WanderCell extends BehaviorCell {
         this.parameters = new Vector.<Sprite>();
         for (var i:int = 0; i < PARAMETERS.length; i++)
         {
-            if (CHECK[i])
+            if (editTypes[i])
                 this.parameters[i] = new CellCheck(this, i);
             else
                 this.parameters[i] = new CellParameter(this, i);
@@ -68,17 +69,12 @@ public class WanderCell extends BehaviorCell {
 
     private function drawBackground():void
     {
-        graphics.clear();
-        graphics.beginFill(0x2b2b2b, 1);
-        graphics.lineStyle(2, 0x151515);
-        graphics.drawRoundRect(0, 0, Editor.INSET_WIDTH - 20, 35, 15, 15);
-        graphics.endFill();
-        graphics.beginFill(0x151515, 1);
-        graphics.drawRoundRect(0, 0, 20, 35, 15, 15);
-        graphics.endFill();
-        graphics.beginFill(0x151515, 1);
-        graphics.drawRect(8, 0, 95, 35);
-        graphics.endFill();
+        this.container = GraphicsUtil.drawTransparentWindow(105, 35, ColorUtil.PASSIVE_COLOR);
+        addChild(this.container);
+
+        this.inset = GraphicsUtil.drawTransparentWindow(Editor.INSET_WIDTH - 125, 35, ColorUtil.PASSIVE_COLOR_ALT);
+        this.inset.x = 105;
+        addChild(this.inset);
     }
 }
 }

@@ -87,6 +87,27 @@ public class GraphicsUtil
       }
    }
 
+   public static function drawTransparentWindow(w:int, h:int, inner:uint, alpha:Number = 0.7):Sprite
+   {
+      var s:Sprite = new Sprite();
+      s.graphics.clear();
+      s.graphics.beginFill(inner, alpha);
+      s.graphics.drawRect(0,0,w,h);
+      s.graphics.endFill();
+      return s;
+   }
+
+   public static function drawLighterWindow(w:int, h:int):Sprite
+   {
+      var s:Sprite = new Sprite();
+      s.graphics.clear();
+      s.graphics.lineStyle(1, 0, 1);
+      s.graphics.beginFill(0x202020, 0.6);
+      s.graphics.drawRect(0,0,w,h);
+      s.graphics.endFill();
+      return s;
+   }
+
    public static function drawInset(w:int, h:int, cut:int = 12, alt:Boolean = false):Sprite
    {
       var s:Sprite = new Sprite();
